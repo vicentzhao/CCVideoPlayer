@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line_movie_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+       android:background="@drawable/movie_main_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_line_movie_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:orientation="horizontal" >
+
+          <RelativeLayout
+                android:layout_width="366dip"
+                android:layout_height="fill_parent"
+                android:focusable="false"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="450dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/bg"
+                    android:focusable="false"
+                    android:scaleType="fitXY" />
+
+                <RelativeLayout
+                    android:id="@+id/movie_re_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:focusable="false" >
+
+                    <ImageView
+                        android:id="@+id/btn_game_info_logo"
+                        android:layout_width="263dip"
+                        android:layout_height="350dip"
+                        android:layout_marginLeft="53dip"
+                        android:layout_marginTop="29dip"
+                        android:focusable="false"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/grid_item_default" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_re_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/movie_re_image"
+                    android:layout_marginLeft="48dip"
+                    android:layout_marginTop="10dip"
+                    android:visibility="invisible"
+                    android:focusable="false" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【国家地区】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_movie_info_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="中国"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_re_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/movie_re_area"
+                    android:layout_marginLeft="48dip"
+                    android:layout_marginTop="5dip"
+                    android:focusable="false" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【类        型】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_game_info_type"
+                        android:layout_width="145dip"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_re_playtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/movie_re_type"
+                    android:layout_marginLeft="48dip"
+                    android:layout_marginTop="5dip"
+                    android:visibility="invisible"
+                    android:focusable="false" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【影片时长】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_movie_info_playingtimer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="100分钟"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_re_director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/movie_re_playtime"
+                    android:layout_marginLeft="48dip"
+                    android:layout_marginTop="5dip"
+                    android:focusable="false" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【标        签】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_game_info_labl"
+                        android:layout_width="145dip"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_re_actor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/movie_re_director"
+                    android:layout_marginLeft="48dip"
+                    android:visibility="invisible"
+                    android:layout_marginTop="5dip"
+                    android:focusable="false" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【主　　演】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_movie_info_actor"
+                        android:layout_width="145dip"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:lines="2"
+                        android:text="张艺谋张艺谋张艺谋"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dip"
+                    android:layout_marginTop="5dip"
+                    android:focusable="false"
+                    android:visibility="invisible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="【上映时间】："
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/btn_movie_info_releasetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="2013-7"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="2" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:id="@+id/game_detail_line"
+                    android:layout_height="130dip"
+                   >
+                    <!--  
+                    <TextView
+                        android:layout_marginTop="20dip"
+                        android:id="@+id/tv_game_intro"
+                        android:layout_width="880dip"
+                        android:text="【影片介绍】"
+                        android:textSize="24sp"
+                        android:layout_height="130dip"
+                        android:layout_marginRight="10dip"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="10dip"
+                        android:lines="5"
+                        android:gravity="fill_horizontal"
+                        android:textColor="@android:color/white"
+                        />
+                        -->
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="right"
+                        >
+                        <Button
+                            android:id="@+id/view_game_paly"
+                            android:layout_marginRight="20dip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/play_selector" />
+                           <Button
+                            android:id="@+id/view_game_collect"
+                            android:layout_width="wrap_content"
+                            android:layout_marginRight="20dip"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/movie_collect_selector" />
+                    </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                 android:background="@drawable/movie_details_logo_bg"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip" >
+
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_totalrows"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                         android:textColor="#ffffff"
+                        android:layout_toRightOf="@id/tv_type"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/btn_game_pageup"
+                        android:background="@drawable/page_up"
+                        android:layout_width="40dip"
+                        android:layout_height="40dip"
+                        android:layout_centerInParent="true"
+                        android:focusable="false"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/laylist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+                    <GridView
+                        android:id="@+id/game_gridview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="4"
+                        android:padding="10dp"
+                        android:scrollbars="none"
+                        android:verticalSpacing="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip" >
+                    <TextView
+                        android:id="@+id/tv_currentpage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="#ffffff"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="20sp" />
+                    <Button
+                        android:id="@+id/btn_game_pagedown"
+                        android:background="@drawable/page_down"
+                        android:layout_width="40dip"
+                        android:layout_height="40dip"
+                        android:layout_centerInParent="true"
+                        android:focusable="false"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/re_movie_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dip" >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" >
+                <ImageView
+                    android:id="@+id/frame_image05"
+                    android:layout_width="200dip"
+                    android:layout_height="200dip"
+                    android:src="@drawable/londing1" />
+                <ImageView
+                    android:id="@+id/frame_image06"
+                    android:layout_width="200dip"
+                    android:layout_height="200dip"
+                    android:layout_weight="1"
+                    android:onClick="stopFrame"
+                    android:src="@drawable/londing2"
+                    android:text="stopFrame" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/re_movie_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frame_image05"
+                android:gravity="center"
+                android:text="正在搜索资料库，请稍后..."
+                android:textColor="@color/white"
+                android:textSize="29dip" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

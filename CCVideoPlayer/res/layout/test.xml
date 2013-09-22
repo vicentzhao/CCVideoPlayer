@@ -1,0 +1,17 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView android:textColor="#0000ff"
+        android:layout_width="wrap_content"
+        android:text="This is text which gets lost in the background"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:padding="2dp"
+        android:shadowColor="#ff0000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:textSize="50sp"
+        android:shadowRadius="3.0" />
+</LinearLayout>

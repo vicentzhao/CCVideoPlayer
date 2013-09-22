@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <TableRow
+        android:layout_margin="0dip"
+         >
+        <Button
+            android:id="@+id/btn_movie_info_tv_ok_sele"
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dip"
+            android:background="@drawable/movie_pay_selector"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="15dip"
+            android:textColor="#757575"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/btn_movie_info_tv_format"
+            android:layout_width="120dip"
+            android:layout_margin="1dip"
+            android:gravity="center"
+            android:padding="15dip"
+            android:text="视频格式"
+            android:focusable="false"
+            android:textColor="#4d9831"
+            android:textSize="15dip"
+			android:background="#003268"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_movie_info_tv_resolutionratio"
+            android:layout_width="120dip"
+            android:layout_margin="1dip"
+            android:background="#003268"
+            android:gravity="center"
+            android:padding="15dip"
+            android:focusable="false"
+            android:text="分辨率"
+            android:textColor="@color/white"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_movie_info_tv_price_nomaruser"
+            android:layout_width="120dip"
+            android:layout_margin="1dip"
+            android:background="#003268"
+            android:gravity="center"
+            android:padding="15dip"
+            android:focusable="false"
+            android:text="普通用户"
+            android:textColor="@color/white"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_movie_info_tv_price_vipuser"
+            android:layout_width="120dip"
+            android:layout_margin="1dip"
+            android:background="#003268"
+            android:gravity="center"
+            android:padding="15dip"
+            android:focusable="false"
+            android:text="VIP用户"
+           android:textColor="@color/white"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_movie_info_tv_price_monthuser"
+            android:layout_width="120dip"
+            android:layout_margin="1dip"
+            android:background="#003268"
+            android:gravity="center"
+            android:padding="15dip"
+            android:focusable="false"
+            android:text="包月用户"
+            android:textColor="@color/white"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+    </TableRow>
+
+</TableLayout>

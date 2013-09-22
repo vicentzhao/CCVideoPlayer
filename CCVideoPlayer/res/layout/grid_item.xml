@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="80.0dp"
+            android:layout_height="100.0dp"
+    android:orientation="vertical" 
+    android:gravity="center"
+    >
+      <TextView
+            android:id="@+id/tv_item_esp"
+            android:layout_width="70.0dp"
+            android:layout_height="60.0dp"
+            android:gravity="center"
+            android:textColor="#000033"
+            android:textSize="25dip"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/grid_item_selector"
+             />
+</LinearLayout>

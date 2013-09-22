@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">CCVideoPlayer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="downErro">下载出现错误</string>
+    <string name="downComplete">下载完成</string>
+    <string name="cancle">取消</string>
+    <string name="confirm">确认</string>
+    <string name="pmt">提示</string>
+    <string name="lastPage">最后一页</string>
+    <string name="firstPage">第一页</string>
+    <string name="movie_intro">【影片介绍】:</string>
+    
+    <string name="title_activity_main">CCVideoPlayer</string>
+    <string name="sound_movie_select">sound_movie_select</string>
+    <string name="sound_page_change">sound_page_change</string>
+
+</resources>

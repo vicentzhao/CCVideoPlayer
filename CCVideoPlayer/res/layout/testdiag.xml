@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="#000000"
+    android:layout_height="wrap_content"
+    android:id="@+id/dialog_test_re"
+    >
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <Button
+        android:gravity="center"
+        android:textSize="15dip"
+        android:id="@+id/btnSltCntAll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        
+        android:text="国   语"
+        android:textColor="#ffffff" />
+
+    <Button
+           android:layout_marginTop="4dip"
+        android:id="@+id/btnSltGudongUser"
+         android:gravity="center"
+        android:textSize="15dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="粤   语"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/btnSltRecommend"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+         android:layout_marginTop="4dip"
+        android:text="英   语"
+        android:textSize="15dip"
+        android:textColor="#ffffff" />
+
+</LinearLayout>
+</RelativeLayout>

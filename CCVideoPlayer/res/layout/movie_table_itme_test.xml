@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/movie_main_bg"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#0099ff"
+        android:stretchColumns="*" >
+
+        <TableRow android:layout_margin="2dip" >
+
+            <TextView
+                android:layout_width="20dip"
+                android:layout_height="50dip"
+                android:layout_margin="2dip"
+                android:background="#003d7f"
+                android:textColor="#3d8137"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+
+            <TextView
+                 android:background="#003d7f"
+                 android:layout_width="20dip"
+                android:layout_height="50dip"
+                android:textColor="#3d8137"
+                android:layout_margin="2dip"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="20dip"
+                android:layout_height="50dip"
+                 android:background="#003d7f"
+                android:textColor="#3d8137"
+                android:layout_margin="2dip"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_margin="1dip"
+            
+            >
+
+            <TextView
+                 android:background="#003d7f"
+                android:textColor="#3d8137"
+                android:layout_margin="2dip"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+
+            <TextView
+                 android:background="#003d7f"
+                android:textColor="#3d8137"
+                android:layout_margin="2dip"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+
+            <TextView
+                 android:background="#003d7f"
+                android:textColor="#3d8137"
+                android:layout_margin="2dip"
+                android:textSize="20dip"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
