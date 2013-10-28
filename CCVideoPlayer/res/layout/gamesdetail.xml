@@ -6,8 +6,106 @@
     android:focusable="false"
        android:background="@drawable/movie_main_bg"
     android:orientation="vertical" >
-
     <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="center" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="false"
+                    android:src="@drawable/xing" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="false"
+                    android:src="@drawable/xing" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="false"
+                    android:src="@drawable/xing" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="false"
+                    android:src="@drawable/xing" />
+            </LinearLayout>
+<LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评分："
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9.9"
+                    android:textColor="#ff6600"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/btn_tv_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:focusable="false"
+                android:gravity="center"
+                android:textColor="#00ffff"
+                android:textSize="35sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center" >
+
+              <Button
+                    android:id="@+id/view_game_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edu_collect_selector"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            
+        </LinearLayout>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="6dip"
+            android:layout_marginTop="5dip"
+            android:src="#494949" />
+    <LinearLayout
+       android:layout_weight="9"
         android:id="@+id/ll_line_movie_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +121,7 @@
                 <ImageView
                     android:layout_width="450dip"
                     android:layout_height="fill_parent"
-                    android:layout_marginTop="10dip"
+                   
                     android:background="@drawable/bg"
                     android:focusable="false"
                     android:scaleType="fitXY" />
@@ -32,13 +130,13 @@
                     android:id="@+id/movie_re_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dip"
+                    android:layout_marginTop="10dip"
                     android:focusable="false" >
 
                     <ImageView
                         android:id="@+id/btn_game_info_logo"
                         android:layout_width="263dip"
-                        android:layout_height="350dip"
+                        android:layout_height="365dip"
                         android:layout_marginLeft="53dip"
                         android:layout_marginTop="29dip"
                         android:focusable="false"
@@ -214,6 +312,7 @@
             </RelativeLayout>
 
         <LinearLayout
+            
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dip"
@@ -225,13 +324,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                
                 android:orientation="vertical"
                 android:layout_weight="2" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:id="@+id/game_detail_line"
-                    android:layout_height="130dip"
+                    android:layout_height="160dip"
                    >
                     <!--  
                     <TextView
@@ -250,26 +350,15 @@
                         />
                         -->
                 </LinearLayout>
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="right"
-                        >
+               
                         <Button
                             android:id="@+id/view_game_paly"
-                            android:layout_marginRight="20dip"
+                            android:layout_marginRight="10dip"
+                            android:layout_gravity="right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/play_selector" />
-                           <Button
-                            android:id="@+id/view_game_collect"
-                            android:layout_width="wrap_content"
-                            android:layout_marginRight="20dip"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/movie_collect_selector" />
                     </LinearLayout>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -391,10 +480,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/frame_image05"
                 android:gravity="center"
-                android:text="正在搜索资料库，请稍后..."
+                android:text="正在搜索相关资源，请稍后..."
                 android:textColor="@color/white"
                 android:textSize="29dip" />
         </LinearLayout>
     </RelativeLayout>
-
+</LinearLayout>
 </RelativeLayout>

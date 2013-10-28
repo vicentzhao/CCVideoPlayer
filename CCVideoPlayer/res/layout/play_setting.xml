@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="right"
+    android:visibility="gone"
+    android:id="@+id/relative_playcotrol_playsetting"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/frameEpisode"
+        android:background="#00000000" >
+
+        <RelativeLayout
+            android:id="@+id/relName"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:background="@drawable/top_menu_bg" >
+
+            <TextView
+                android:id="@+id/playName"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/menu_typ_height"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50.0dip"
+                android:layout_toLeftOf="@+id/lin"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_f0f0f0"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:id="@+id/lin"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/top_menu_sperator" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameEpisode"
+        android:layout_width="@dimen/play_menu_episode"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/framePro"
+        android:background="#00000000" >
+
+        <FrameLayout
+            android:layout_width="@dimen/play_menu_episode"
+            android:layout_height="fill_parent"
+            android:clipToPadding="true"
+            android:paddingTop="78.0dip" >
+
+            <RelativeLayout
+                android:id="@+id/relEpisode"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-80.0dip"
+                android:background="@drawable/top_menu_bg"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    
+                    android:id="@+id/ivup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:paddingBottom="7.0dip"
+                    android:paddingTop="84.0dip"
+                    android:src="@drawable/arrow_up" />
+
+                <TextView
+                    android:id="@+id/tvEpisode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivup"
+                    android:layout_marginLeft="2.0dip"
+                    android:layout_marginRight="2.0dip"
+                    android:background="#22d2dbe7"
+                    android:gravity="center"
+                    android:text="5"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/text_color_f0f0f0"
+                    android:textSize="@dimen/text_size_24" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvEpisode"
+                    android:layout_centerHorizontal="true"
+                    android:paddingBottom="14.0dip"
+                    android:paddingTop="7.0dip"
+                    android:src="@drawable/arrow_down" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:background="@drawable/top_menu_bg" />
+        <RelativeLayout
+            android:id="@+id/episode_layout"
+            android:focusable="true"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height" >
+
+            <ImageView
+                android:id="@+id/episode_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_icon_left_margin"
+                android:src="@drawable/icon_episode" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_text_left_margin"
+                android:layout_toRightOf="@id/episode_pre"
+                android:text="选集"
+                android:textColor="@color/text_color_f0f0f0"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/top_menu_sperator" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/framePro"
+        android:layout_width="@dimen/play_menu_proportion"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/frameDef"
+         android:visibility="gone"
+        android:background="#00000000" >
+
+        <FrameLayout
+            android:layout_width="@dimen/play_menu_proportion"
+            android:layout_height="fill_parent"
+            android:clipToPadding="true"
+           
+            android:paddingTop="78.0dip" >
+
+            <ListView
+                android:id="@+id/proportionList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-80.0dip"
+                android:background="@drawable/top_menu_bg"
+                android:divider="@null"
+                android:listSelector="@drawable/channel_station_item_selector"
+                android:paddingBottom="16.0dip"
+                android:paddingTop="16.0dip"
+                android:scrollbars="none"
+             
+                />
+        </FrameLayout>
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:background="@drawable/top_menu_bg" />
+
+        <RelativeLayout
+            android:id="@+id/proportion_layout"
+            android:layout_width="fill_parent"
+            android:visibility="gone"
+            android:layout_height="@dimen/menu_typ_height" >
+
+            <ImageView
+                android:id="@+id/proportion_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_icon_left_margin"
+                android:src="@drawable/icon_proportion" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_text_left_margin"
+                android:layout_toRightOf="@id/proportion_pre"
+                android:text="画面比例"
+                android:textColor="@color/text_color_f0f0f0"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/top_menu_sperator" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameDef"
+        android:layout_width="@dimen/play_menu_definition"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/frameSource"
+        android:background="#00000000" >
+
+        <FrameLayout
+            android:layout_width="@dimen/play_menu_definition"
+            android:layout_height="fill_parent"
+            android:clipToPadding="true"
+            android:paddingTop="78.0dip" >
+
+            <ListView
+                android:id="@+id/definitionList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/top_menu_bg"
+                android:divider="@null"
+                android:listSelector="@drawable/channel_station_item_selector"
+                android:paddingBottom="16.0dip"
+                android:paddingTop="16.0dip"
+                android:scrollbars="none"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:background="@drawable/top_menu_bg" />
+
+        <RelativeLayout
+            android:id="@+id/definition_layout"
+            android:focusable="true"
+            android:nextFocusLeft="@+id/episode_layout"
+            android:nextFocusRight="@+id/source_layout"
+            android:background="@drawable/playcontrol_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height" >
+            <ImageView
+                android:id="@+id/definition_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_icon_left_margin"
+                android:src="@drawable/icon_definition" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_text_left_margin"
+                android:layout_toRightOf="@id/definition_pre"
+                android:text="清晰度"
+                android:textColor="@color/text_color_f0f0f0"
+                android:textSize="@dimen/text_size_24" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/top_menu_sperator" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameSource"
+        android:layout_width="@dimen/play_menu_source"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="#00000000" >
+
+        <FrameLayout
+            android:layout_width="@dimen/play_menu_source"
+            android:layout_height="fill_parent"
+            android:clipToPadding="true"
+            android:paddingTop="78.0dip" >
+
+            <ListView
+                android:id="@+id/sourceList"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/top_menu_bg"
+                android:divider="@null"
+                android:listSelector="@drawable/channel_station_item_selector"
+                android:paddingBottom="100.0dip"
+                android:paddingTop="@dimen/list_view_vertical_padding"
+                android:scrollbars="none"
+                android:visibility="visible" 
+                />
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:background="@drawable/top_menu_bg" />
+
+        <RelativeLayout
+            android:id="@+id/source_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_typ_height"
+            android:nextFocusLeft="@+id/definition_layout"
+            android:background="@drawable/playcontrol_selector" >
+
+            <ImageView
+                android:id="@+id/menuSourceIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_icon_left_margin"
+                android:src="@drawable/icon_source" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/menu_type_text_left_margin"
+                android:layout_toRightOf="@id/menuSourceIcon"
+                android:text="视频网站"
+                android:textColor="@color/text_color_f0f0f0"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/top_menu_sperator" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>

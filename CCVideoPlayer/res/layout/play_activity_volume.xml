@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/maxVolumeImage"
+        android:layout_width="26.0dip"
+        android:layout_height="28.0dip"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/minVolumeImage"
+        android:layout_width="26.0dip"
+        android:layout_height="28.0dip"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/volumeSize"
+        android:layout_width="20.0dip"
+        android:layout_height="20.0dip" />
+
+    <ImageView
+        android:id="@+id/volumeSizeFrame"
+        android:layout_width="22.0dip"
+        android:layout_height="242.0dip"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/bufferTimeImageView"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:background="#00000000" />
+
+</RelativeLayout>

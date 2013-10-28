@@ -428,7 +428,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/frame_image05"
                 android:gravity="center"
-                android:text="正在搜索在线影院，请稍后..."
+                android:text="正在搜索相关资源，请稍后..."
                 android:textColor="@color/white"
                 android:textSize="29dip" />
         </LinearLayout>

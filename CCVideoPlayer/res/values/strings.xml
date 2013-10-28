@@ -11,9 +11,63 @@
     <string name="lastPage">最后一页</string>
     <string name="firstPage">第一页</string>
     <string name="movie_intro">【影片介绍】:</string>
+    <string name="downing">您正在下载中,请稍等...</string>
+    <string name="nosdcard">找不到sd卡。</string>
+    <string name="exithint">发现新版本,是否更新?</string>
+    <string name="exit">是否退出?</string>
+    <string name="playing">播放</string>
     
     <string name="title_activity_main">CCVideoPlayer</string>
     <string name="sound_movie_select">sound_movie_select</string>
     <string name="sound_page_change">sound_page_change</string>
+    
+    
+    
+    <string name="app_name">CCVIEOPLAYER</string>
+    <string name="play_setting">播放设置</string>
+    <string name="play_definition">清晰度:</string>
+    <string name="play_source">视频网站:</string>
+    <string name="play_proportion">画面比例:</string>
+    <string name="switch_channel_tip">按菜单键切换分类</string>
+    <string name="menu_my_fav">我的收藏</string>
+    <string name="menu_voice">音量</string>
+    <string name="menu_proportion">画面比例</string>
+    <string name="menu_station_fav">收藏本台</string>
+    <string name="menu_station_unfav">取消收藏</string>
+    <string name="proportion_ori_scale">原始比例</string>
+    <string name="proportion_full_screen">全屏拉伸</string>
+    <string name="proportion_full_cut">全屏裁剪</string>
+    <string name="live_mask_description">直播Activity背景</string>
+      <string name="loading">正在努力加载中...</string>
+    <string name="progressVlaue">0%</string>
+    <string name="downloadSpeed">0 kb/s</string>
+    <string name="loadingImageView">loadingImageView</string>
+    <string name="playToastImageView">playToastImageView</string>
+    <string name="playToastBackgroundImageView">playToastBackgroundImageView</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    
+    <!-- 播放的一些错误参数 -->
+    <string name="countdown">播放器稍后将自动退出.</string>
+     <string name="app_name">开播视频</string>
+<string name="version_name">1.0</string>
+<string name="title_file">本地视频</string>
+<string name="title_online">在线视频</string>
+<string name="init_decoders">正在进行第一次解压解码包...</string>
+<string name="loadinfo">载入中，请稍后...</string>
+<string name="file_oper">文件操作</string>
+<string name="file_rename">重命名</string>
+<string name="file_rename_failed">重命名失败</string>
+<string name="file_rename_exists">文件已存在</string>
+<string name="file_delete">删除</string>
+<string name="file_delete_confirm">确定删除 (%s) ？</string>
+
+<string name="vitamio_theme_app_name">VPlayer codec</string>
+<string name="VideoView_error_title">Cannot play video</string>
+<string name="VideoView_error_text_invalid_progressive_playback">Sorry, this video is not valid for streaming to
+          this device.</string>
+<string name="VideoView_error_text_unknown">Sorry, this video cannot be played.</string>
+<string name="VideoView_error_button">OK</string>
+<string name="mediacontroller_play_pause">Play/Pause</string>
 
 </resources>

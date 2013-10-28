@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ccibs.ccvideoplayer"
-    android:versionCode="1"
-    android:versionName="1.0.0.0" >
+    android:versionCode="210"
+    android:versionName="1.0.2.1" >
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="15" />
@@ -49,5 +49,16 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="landscape"
              ></activity>
+            <activity
+            android:name=".play.CCVitamioPlayer"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape"
+             ></activity>
+                <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 </manifest>

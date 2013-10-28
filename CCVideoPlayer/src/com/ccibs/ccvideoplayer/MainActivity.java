@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Timer;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -50,6 +51,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +75,8 @@ import com.ccibs.ccvideoplayer.bean.MovieBean;
 import com.ccibs.ccvideoplayer.bean.PlayPathBean;
 import com.ccibs.ccvideoplayer.bean.TVBean;
 import com.ccibs.ccvideoplayer.bean.VideoPlayInfo;
+import com.ccibs.ccvideoplayer.constant.Constant;
+import com.ccibs.ccvideoplayer.play.CCVitamioPlayer;
 import com.ccibs.ccvideoplayer.util.AppUtil;
 import com.ccibs.ccvideoplayer.util.CCdriveTextView;
 import com.ccibs.ccvideoplayer.util.CryptUtil;
@@ -85,6 +89,7 @@ import com.ccibs.ccvideoplayer.util.JSONUtil;
 import com.ccibs.ccvideoplayer.util.LoginUtil;
 import com.ccibs.ccvideoplayer.util.SoapUtils;
 import com.ccibs.ccvideoplayer.util.ToastUtil;
+import com.ccibs.ccvideoplayer.util.UpdateApk;
 import com.ccibs.ccvideoplayer.util.UpdateVersion;
 
 /**
@@ -137,7 +142,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private int[] view_movie_payforID = { R.id.view_movie_payfor_item01,
 			R.id.view_movie_payfor_item02, R.id.view_movie_payfor_item03,
 			R.id.view_movie_payfor_item04, R.id.view_movie_payfor_item05 };
-	private int movieCount = -1; // 判断播放哪部格式
+	private int movieCount = 0; // 判断播放哪部格式
 	private int typeCount = -1; // 判断播放哪个片源
 	private MovieBean movie;
 	// private static int NETWORK_CONNECT_TIMEOUT = 500000;
@@ -180,7 +185,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ImageButton view_edu_collect;
 	private String eduDetailPath = "http://apk.vocy.com/educationshop!information.action?token=myadmin&resultType=json&wid=137645341860600002";
 	private String eduPlayList = "http://apk.vocy.com/educationshop!source.action?token=myadmin&resultType=json&wid=137645341860600002";
-	private ArrayList<EduPlayBean> myEduNextList;
+	
 	private EduGridAdapter eduGridAdapter;
 	private ArrayList<EduPlayBean> playPathList;
 	private LinearLayout edu_lay_list;
@@ -295,6 +300,16 @@ public class MainActivity extends Activity implements OnClickListener {
 		HttpRequest.getInstance().setType(type);
 		String kind = getIntent().getStringExtra("kind");
 		String web_root = getIntent().getStringExtra("webRoot");
+		System.out.println("============="+web_root);
+		if(null!=web_root){
+		if(web_root.contains("192")){
+			HttpRequest.getInstance().setSTATIC_WEB_ROOT("http://192.168.1.3:2014/");
+		}else{
+			HttpRequest.getInstance().setSTATIC_WEB_ROOT("http://html.vocy.com/");
+		}
+		}else{
+			HttpRequest.getInstance().setSTATIC_WEB_ROOT("http://html.vocy.com/");
+		}
 		HttpRequest.getInstance().setWEB_ROOT(web_root);
 		System.out.println("收的的kind" + kind);
 		HttpRequest.getInstance().setCommicKind(kind);
@@ -302,9 +317,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		HttpRequest.getInstance().setId(id);
 		httpRequest = HttpRequest.getInstance();
 		if ("1".equals(type)) {
-			testPath = "http://html.vocy.com/html/moviesource/movie_" + id
-					+ ".html";
+//			testPath = "http://html.vocy.com/html/moviesource/movie_" + id
+//					+ ".html";
+			testPath =HttpRequest.getInstance().getURL_TVEpisode_Play();
+//			testPath ="http://html.vocy.com/html/workplay/workplay_1_137465088697000001_0.txt";
+			HttpRequest.getInstance().setId("137465088697000001");
 			setMovieDetail(mytoken, id);
+			System.out.println("testPath的地址为====="+testPath);
 		}
 		if ("26".equals(type) || "12".equals(type)) {
 			setEduDetail(mytoken, id);
@@ -325,9 +344,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		if ("6".equals(type) ||"9".equals(type) || "10".equals(type) || "24".equals(type)
 				|| "5".equals(type) || "14".equals(type) || "13".equals(type)
-				|| "21".equals(type) || "9".equals(type) || "11".equals(type)|| "9".equals(type)) {
+				|| "21".equals(type) || "11".equals(type)|| "0".equals(type)) {
 			initGamesData(id);
 		}
+		Intent intent = new Intent(MainActivity.this,CCVitamioPlayer.class);
+		startActivity(intent);
 	}
 
 	private void setTVDetail(String mytoken, String id) {
@@ -346,6 +367,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		btn_tv_info_actor = (TextView) findViewById(R.id.btn_tv_info_actor);
 		btn_tv_info_logo = (ImageView) findViewById(R.id.btn_tv_info_logo);
 		view_tv_collect = (ImageButton) findViewById(R.id.view_tv_collect);
+		re_movie_loading = (RelativeLayout) findViewById(R.id.re_movie_loading);
+		ImageView frame_image05 = (ImageView) findViewById(R.id.frame_image05);
+		frame_image05.startAnimation(AnimationUtils.loadAnimation(
+				getApplicationContext(), R.anim.logoanmi));
 		view_tv_collect.setVisibility(View.INVISIBLE);
 		final String path = HttpRequest.getInstance().getURL_TVDetail();
 		System.out.println("图片下载的视频=====》》" + path);
@@ -505,7 +530,7 @@ public class MainActivity extends Activity implements OnClickListener {
 																callCCBookPlayer(
 																		position,
 																		"com.ccdrive.photoviewer",
-																		"1",
+																		"http://api.vocy.com/apk_file/137607316956910001.apk",
 																		list);
 															}
 														}
@@ -590,13 +615,41 @@ public class MainActivity extends Activity implements OnClickListener {
 		book_lay_list = (LinearLayout) findViewById(R.id.book_lay_list);
 		book_grid_list = (GridView) findViewById(R.id.book_grid_list);
 		aQuery = new AQuery(MainActivity.this);
-		String path = HttpRequest.getInstance().getURL_BookDetail();
-		System.out.println("图书下载的地址为===" + path);
-		aQuery.ajax(path, String.class, new AjaxCallback<String>() {
+		final String path = HttpRequest.getInstance().getURL_BookDetail();
+		System.out.println("图书类的详细下载地址"+path);
+//		aQuery.ajax(path, String.class, new AjaxCallback<String>() {
+//			@Override
+//			public void callback(String url, String object, AjaxStatus status) {
+//				if (object != null) {
+//					System.out.println("下载下载的图书的json信息为"+object);
+//					BookBean bookBean = JSONUtil.getBookBean(object);
+//					btn_book_info_type.setText(bookBean.getType());
+//					btn_book_info_director.setText(bookBean.getAuthor());
+//					btn_book_info_introduction.setText(bookBean.getSynopsis());
+//					btn_book_info_number.setText(bookBean.getNum());
+//					btn_book_info_status.setText(bookBean.getState());
+//					btn_book_info_title.setText(bookBean.getName());
+//					aQuery.find(R.id.btn_book_info_logo).image(
+//							bookBean.getPic());
+//					setBookPage(bookBean);
+//				}
+//				super.callback(url, object, status);
+//			}
+//
+//		});
+		new AsyncTask<Void, Void, String>(){
+
 			@Override
-			public void callback(String url, String object, AjaxStatus status) {
-				if (object != null) {
-					BookBean bookBean = JSONUtil.getBookBean(object);
+			protected String doInBackground(Void... params) {
+				HttpUtil.getResponseString(path);
+				return HttpUtil.getResponseString(path);
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				if(result!=null){
+					System.out.println("下载下载的图书的json信息为"+result);
+					BookBean bookBean = JSONUtil.getBookBean(result);
 					btn_book_info_type.setText(bookBean.getType());
 					btn_book_info_director.setText(bookBean.getAuthor());
 					btn_book_info_introduction.setText(bookBean.getSynopsis());
@@ -606,11 +659,11 @@ public class MainActivity extends Activity implements OnClickListener {
 					aQuery.find(R.id.btn_book_info_logo).image(
 							bookBean.getPic());
 					setBookPage(bookBean);
+//				}
 				}
-				super.callback(url, object, status);
+				super.onPostExecute(result);
 			}
-
-		});
+		}.execute();
 		String collectPath = httpRequest.getURL_isCollect_FAVMOVIE();
 		System.out.println("收藏判断===========》" + collectPath);
 		view_book_collect = (ImageButton) findViewById(R.id.view_book_collect);
@@ -704,8 +757,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				int myCount = (HttpRequest.getInstance().getCount() - 1) * 10
 						+ position + 1;
-				Toast.makeText(MainActivity.this, myCount + "", 1).show();
-				callCCBookPlayer(position, "com.ccbookreading", "1", null);
+				callCCBookPlayer(position, "com.ccbookreading", "http://api.vocy.com/apk_file/137987665514410001.apk", null);
 			}
 		});
 
@@ -748,7 +800,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		aQuery = new AQuery(MainActivity.this);
 		// eduDetailPath = HttpRequest.getInstance().getURL_eduDetailPath();
 		httpRequest.setCount(1);
-		httpRequest.setPageSize(1);
+		httpRequest.setPageSize(10);
 		eduDetailPath = HttpRequest.getInstance().getURL_BookDetail();
 		System.out.println("下载的地址为" + eduDetailPath);
 		// 获取影片详情
@@ -762,8 +814,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					btn_edu_info_title.setText(eduBean.getName());
 					btn_edu_info_introduction.setText(("【简介】：    ")
 							+ eduBean.getNote());
+					String num =eduBean.getNum();
 					aQuery.find(R.id.btn_edu_info_logo).image(eduBean.getPic());
-					setEduPlayInfo(object);
+					setEduPlayInfo(object,num);
 				}
 				super.callback(url, object, status);
 			}
@@ -817,7 +870,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * @param id
 	 */
 
-	private void setEduPlayInfo(String info) {
+	private void setEduPlayInfo(String info,String num) {
 
 		if (info != null) {
 			System.out.println("下载的数据为" + info);
@@ -831,20 +884,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				e1.printStackTrace();
 			}
 			playPathList = JSONUtil.getEduPlayBeanList(ja);
-			if (playPathList.size() > 10) {
-				myEduNextList = new ArrayList<EduPlayBean>();
-				for (int i = 0; i < 10; i++) {
-					myEduNextList.add(playPathList.get(i));
-				}
+				
 				eduGridAdapter = new EduGridAdapter(MainActivity.this,
-						myEduNextList);
-			} else {
-				myEduNextList = playPathList;
-				eduGridAdapter = new EduGridAdapter(MainActivity.this,
-						myEduNextList);
-			}
-			int count = playPathList.size() / 10;
-			if (playPathList.size() % 10 != 0) {
+						playPathList);
+			int count =Integer.parseInt(num) / 10;
+			if (Integer.parseInt(num) % 10 != 0) {
 				count = count + 1;
 			}
 			System.out.println("count的大小为" + count);
@@ -855,8 +899,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				imageviewList[i].setId(2000 * i);
 				imageviewList[i].setText((10 * i + 1)
 						+ "~"
-						+ (10 * (i + 1) < (playPathList.size()) ? 10 * (i + 1)
-								: playPathList.size()));
+						+ (10 * (i + 1) < (Integer.parseInt(num)) ? 10 * (i + 1)
+								: Integer.parseInt(num)));
 				imageviewList[i].setTextSize(20);
 				imageviewList[i].setGravity(Gravity.CENTER);
 				imageviewList[i]
@@ -872,14 +916,35 @@ public class MainActivity extends Activity implements OnClickListener {
 				imageviewList[i].setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						myEduNextList = new ArrayList<EduPlayBean>();
-
-						for (int j = (10 * t + 1); j <= (10 * (t + 1) > playPathList
-								.size() ? playPathList.size() : 10 * (t + 1)); j++) {
-							myEduNextList.add(playPathList.get(j - 1));
-						}
-						eduGridAdapter.setArrayList(myEduNextList);
-						eduGridAdapter.notifyDataSetChanged();
+//						myEduNextList = new ArrayList<EduPlayBean>();
+//
+//						for (int j = (10 * t + 1); j <= (10 * (t + 1) > playPathList
+//								.size() ? playPathList.size() : 10 * (t + 1)); j++) {
+//							myEduNextList.add(playPathList.get(j - 1));
+//						}
+//						eduGridAdapter.setArrayList(myEduNextList);
+//						eduGridAdapter.notifyDataSetChanged();
+						
+						HttpRequest.getInstance().setCount(t+1);
+						String nextPath=HttpRequest.getInstance().getURL_BookDetail();
+						aQuery.ajax(nextPath, String.class, new AjaxCallback<String>(){
+							@Override
+							public void callback(String url, String object,
+									AjaxStatus status) {
+								JSONObject jo;
+								JSONArray ja = null;
+								try {
+									jo = new JSONObject(object);
+									ja= jo.getJSONArray("data");
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								playPathList = JSONUtil.getEduPlayBeanList(ja);
+								eduGridAdapter.setArrayList(playPathList);
+								eduGridAdapter.notifyDataSetChanged();
+								super.callback(url, object, status);
+							}
+						});
 
 					}
 				});
@@ -891,11 +956,19 @@ public class MainActivity extends Activity implements OnClickListener {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					String playID = myEduNextList.get(position).getId();
+					String playID = playPathList.get(position).getId();
 					httpRequest.setSid(playID);
 					// String playPaht = HttpRequest.getInstance()
 					// .getURL_eduPlaySinglePath()
 					// + playID;
+					if(HttpRequest.getInstance().getType().equals("19")){
+						String downloadpath = "http://api.vocy.com/apk_file/137987665514450001.apk";// APK下载路径
+						if(Constant.ISSlientInstall){
+							downloadpath=	"http://sys.vocy.com/apk_file/137987665514450001.apk";// APK下载路径
+						}
+					   callCCBookPlayer(position, "com.ccibs.musicplay", downloadpath, null);
+						return;
+					}
 					String playPaht = httpRequest.getURL_EDUEpisode_Play();
 					System.out.println("播放的详细地址为" + playPaht);
 					aQuery.ajax(playPaht, String.class,
@@ -960,7 +1033,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 								}
 							});
-
 				}
 			});
 
@@ -973,7 +1045,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		loader = new ImageAsyncLoader();
 		aQuery = new AQuery(MainActivity.this);
 		startBefor();
-		setMovieSoruce();
+//		setMovieSoruce();
 		init();
 		currentTimeMillis = System.currentTimeMillis();
 		setDataPage();
@@ -1294,9 +1366,17 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 	}
+	
+	/**
+	 * 支付信息
+	 * @param movie
+	 * @param position
+	 */
 
 	private void setPaySource(MovieBean movie, int position) {
 		typeCount = position;
+		System.out.println("下载下来的position==========>"+position);
+		
 		ArrayList<VideoPlayInfo> VideoPlayInfoList = getVideoPlayInfoList(
 				movie, position);
 		if (null == VideoPlayInfoList || VideoPlayInfoList.size() == 0) {
@@ -1445,6 +1525,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	// return 0;
 	// }
 
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ("24".equals(HttpRequest.getInstance().getType())) {
@@ -1480,18 +1561,53 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 
 		}
+		
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+		/*	final Dialog dialog = new Dialog(MainActivity.this, R.style.Theme_Dialog);
+			dialog.setContentView(R.layout.exitdialog);
+			Button btn_yes = (Button) dialog.findViewById(R.id.btn_yes);
+			Button btn_no = (Button) dialog.findViewById(R.id.btn_no);
+			TextView tv = (TextView) dialog.findViewById(R.id.textView1);
+			tv.setText(R.string.exit);
+			
+		btn_yes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MainActivity.this.finish();
+				android.os.Process
+						.killProcess(android.os.Process
+								.myPid());
+			}
+		});
+		btn_no.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+//				exitdialog.setVisibility(View.GONE);
+				dialog.dismiss();
+				
+			}
+		});
+			dialog.show();*/
+			finish();
+
+		}
 		return super.onKeyDown(keyCode, event);
 	}
 
 	private ArrayList<VideoPlayInfo> getVideoPlayInfoList(MovieBean movie2,
 			int position) {
-		ArrayList<String> movieFromList = movie.getMovieFromList();
+		ArrayList<String> movieFromList = movie2.getMovieFromList();
 		if (movieFromList == null || movieFromList.size() == 0) {
 			return null;
 		}
 		String fromSource = movieFromList.get(position);
-		HashMap<String, ArrayList<VideoPlayInfo>> moviePlayMap = movie
+		System.out.println("下载的下来的==============》"+fromSource);
+		HashMap<String, ArrayList<VideoPlayInfo>> moviePlayMap = movie2
 				.getMoviePlayMap();
+		if (null==moviePlayMap || moviePlayMap.size() == 0) {
+			return null;
+		}
 		ArrayList<VideoPlayInfo> VideoPlayInfoList = moviePlayMap
 				.get(fromSource);
 		return VideoPlayInfoList;
@@ -1525,11 +1641,14 @@ public class MainActivity extends Activity implements OnClickListener {
 						 * apkEntity[2]=1.1.2.9 apkEntity[3]=137048843775650001
 						 */
 						String[] apkEntity = apkStr.split("\\[TAB\\]|\\[CR\\]");
+						System.out.println("version===="+version+"===apapkEntity"+apkEntity[2]);
 						if (!version.equals(apkEntity[2])) {
+							
 							HttpRequest.getInstance().setApkuuid(apkEntity[3]);
 							String path = HttpRequest.getInstance()
 									.getURL_DOWN_UPDATE_APK();
-							setUpdateDiago(path, apkEntity[1]);
+//							setUpdateDiago(path, apkEntity[1]);
+							UpdateApk.setInstall(aQuery.getContext(), apkEntity[1], path);
 						}
 					}
 				}
@@ -1551,39 +1670,49 @@ public class MainActivity extends Activity implements OnClickListener {
 	void setUpdateDiago(final String path, final String apkName) {
 		final Handler hd = new Handler();
 		// TODO Auto-generated method stub
-		Dialog dialog = new AlertDialog.Builder(aQuery.getContext())
-				.setTitle("发现新版本")
-				.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new AsyncTask<Void, Void, Void>() {
-							@Override
-							protected Void doInBackground(Void... params) {
-								UpdateVersion uv = UpdateVersion.instance(
-										aQuery.getContext(), hd, true, false,
-										re_movie_loading);
-								re_movie_title.post(new Runnable() {
 
-									@Override
-									public void run() {
-										re_movie_title.setText("正在安装应用，请稍后...");
-									}
-								});
-								uv.setUpdateUrl(path);
-								uv.setLoadApkName(apkName);
-								uv.run();
-								return null;
-							}
-						}.execute();
+		final Dialog dialog = new Dialog(MainActivity.this,	R.style.Theme_Dialog);
+		dialog.setContentView(R.layout.exitdialog);
+		Button btn_yes = (Button) dialog.findViewById(R.id.btn_yes);
+		Button btn_no = (Button) dialog.findViewById(R.id.btn_no);
+		if(apkName.equals("com.ccbookreading")||apkName.equals("com.ccdrive.photoviewer")){
+			TextView tv = (TextView) dialog.findViewById(R.id.textView1);
+			tv.setText("需要下载相应的播放器!");
+		}
+		btn_yes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Dialog dialogbar = new Dialog(MainActivity.this,
+						R.style.Theme_Dialog);
+				dialogbar.setContentView(R.layout.activity_progressbar);
+				final ProgressBar pb_bar = (ProgressBar) dialogbar.findViewById(R.id.pb_bar);
+				final TextView tv_progressbar = (TextView) dialogbar
+						.findViewById(R.id.tv_progressbar);
+				dialogbar.show();
+				new AsyncTask<Void, Void, Void>() {
+					@Override
+					protected Void doInBackground(Void... params) {
+						UpdateVersion uv = UpdateVersion.instance(
+								MainActivity.this, hd, true, false);
+						uv.setUpdateUrl(path);
+						uv.setProgressBar(pb_bar, dialogbar, tv_progressbar);
+						uv.setLoadApkName(apkName);
+						uv.run();
+						return null;
 					}
-				})
-				.setNegativeButton(getResources().getString(R.string.cancle),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-							}
-						}).create();
+				}.execute();
+				dialog.dismiss();
+			}
+			
+		});
+		btn_no.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+
+			}
+		});
 		dialog.show();
 		dialog.setOnKeyListener(new OnKeyListener() {
 			@Override
@@ -1616,7 +1745,7 @@ public class MainActivity extends Activity implements OnClickListener {
 							return null;
 						}
 					}
-					if (i > 10) {
+					if (i > 3) {
 						finish();
 					}
 				}
@@ -1630,7 +1759,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			@Override
 			protected void onPostExecute(String result) {
-				if (result != null && result.length() != 0) {
+				if (null!=result &&!"".equals(result)&& result.length() != 0&&!result.contains("<html>")) {
 					re_movie_loading.setVisibility(View.INVISIBLE);
 					btn_movie_info_logo
 							.setImageResource(R.drawable.grid_item_default);
@@ -1645,8 +1774,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					btn_movie_info_releasetime.setText(movie.getAddtime());
 					btn_movie_info_title.setText(movie.getName());
 					btn_movie_info_introduction.setText(movie.getOrotagonist());
-					// aQuery.find(R.id.btn_movie_info_logo).image(R.drawable.menu_bg);
-					// aQuery.find(R.id.btn_movie_info_logo).image(movie.getPic());
+					/**
+					 *
+					 */
 					Bitmap drawable = loader.loadDrawable(movie.getPic(),
 							new ImageCallback() {
 								@Override
@@ -1725,6 +1855,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Uri uri = Uri.parse(webUrl);
 					Intent it = new Intent(Intent.ACTION_VIEW, uri);
 					aQuery.getContext().startActivity(it);
+//					getVideoPlayPath(webUrl, "1");
 					String addFavMoviePaht = HttpRequest.getInstance()
 							.getURL_LIST_ADDFAVMOVIE()
 							+ HttpRequest.getInstance().getId();
@@ -1752,7 +1883,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.view_game_collect:
 			String gameCollect = (String) view_game_collect.getTag();
-			if ("已收藏".equals(gameCollect)) {
+			if ("已 收藏".equals(gameCollect)) {
 				// 收藏
 				view_game_collect
 						.setBackgroundResource(R.drawable.movie_uncollect_selector);
@@ -1868,21 +1999,25 @@ public class MainActivity extends Activity implements OnClickListener {
 							.getTvPlayPath(object);
 					if (httpRequest.getType().equals("7")
 							|| httpRequest.getType().equals("23")) {
-						if (null != PlayAllList.get(0).getVideoPath()
-								&& !PlayAllList.get(0).getVideoPath()
-										.equals("")) {
-							String path = PlayAllList.get(0).getVideoPath();
-							Intent i = new Intent(Intent.ACTION_VIEW);
-							Uri uri = Uri.parse(path);
-							System.out.println("播放的地址为" + path);
-							i.setDataAndType(uri, "video/*");
-							startActivity(i);
-						} else {
-							String webUrl = PlayAllList.get(0).getHtmlPath();
-							Uri uri = Uri.parse(webUrl);
-							Intent it = new Intent(Intent.ACTION_VIEW, uri);
-							startActivity(it);
-						}
+//						if (null != PlayAllList.get(0).getVideoPath()
+//								&& !PlayAllList.get(0).getVideoPath()
+//										.equals("")) {
+//							String path = PlayAllList.get(0).getVideoPath();
+//							Intent i = new Intent(Intent.ACTION_VIEW);
+//							Uri uri = Uri.parse(path);
+//							System.out.println("播放的地址为" + path);
+//							i.setDataAndType(uri, "video/*");
+//							startActivity(i);
+//						} else {
+//							String webUrl = PlayAllList.get(0).getHtmlPath();
+//							Uri uri = Uri.parse(webUrl);
+//							Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//							startActivity(it);
+//						}
+						 if(PlayAllList.get(0).getHtmlPath()!=null&&!"".equals(PlayAllList.get(0).getHtmlPath())){
+							 String webUrl = PlayAllList.get(0).getHtmlPath();
+							 getVideoPlayPath(webUrl, "1");
+						 }
 					} else {
 						setDialog(PlayAllList);
 					}
@@ -1898,7 +2033,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		tv_grid_source_list = (GridView) orderPageView
 				.findViewById(R.id.tv_grid_source_list);
 		tv_grid_source_list.setSelector(new ColorDrawable(0));
-		Dialog builder = new Dialog(MainActivity.this);
+		final Dialog builder = new Dialog(MainActivity.this);
 		builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		builder.setContentView(orderPageView);
 		Window dialogWindow = builder.getWindow();
@@ -1926,20 +2061,31 @@ public class MainActivity extends Activity implements OnClickListener {
 				System.out.println("电视播放的位置==" + position + "tv的大小为"
 						+ tvsourceList.size());
 				PlayPathBean playPathBean = tvsourceList.get(position);
-				if (null != playPathBean.getVideoPath()
-						&& !playPathBean.getVideoPath().equals("")) {
-					String path = playPathBean.getVideoPath();
-					Intent i = new Intent(Intent.ACTION_VIEW);
-					Uri uri = Uri.parse(path);
-					System.out.println("播放的地址为" + path);
-					i.setDataAndType(uri, "video/*");
-					startActivity(i);
-				} else {
-					String webUrl = playPathBean.getHtmlPath();
-					Uri uri = Uri.parse(webUrl);
-					Intent it = new Intent(Intent.ACTION_VIEW, uri);
-					startActivity(it);
-				}
+//				if (null != playPathBean.getVideoPath()
+//						&& !playPathBean.getVideoPath().equals("")) {
+//					String path = playPathBean.getVideoPath();
+//					Intent i = new Intent(Intent.ACTION_VIEW);
+//					Uri uri = Uri.parse(path);
+//					System.out.println("播放的地址为" + path);
+//					i.setDataAndType(uri, "video/*");
+//					startActivity(i);
+//				} else {
+//					String webUrl = playPathBean.getHtmlPath();
+//					Uri uri = Uri.parse(webUrl);
+//					Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//					startActivity(it);
+//				}
+				 if(playPathBean.getHtmlPath()!=null&&!"".equals(playPathBean.getHtmlPath())){
+					 String webUrl = playPathBean.getHtmlPath();
+					 builder.dismiss();
+//					 getVideoPlayPath(webUrl, "1");
+					 Intent i = new Intent(MainActivity.this,CCVitamioPlayer.class);
+					 i.putExtra("type", HttpRequest.getInstance().getType());
+					 i.putExtra("url", webUrl);
+					 String num = btn_tv_info_playingtimer.getText().toString();
+					 i.putExtra("num", num);
+					 startActivity(i);
+				 }
 
 			}
 		});
@@ -1953,57 +2099,91 @@ public class MainActivity extends Activity implements OnClickListener {
 			final String downloadpath, ArrayList<String> photoList) {
 		AppUtil au = new AppUtil(aQuery.getContext());
 		if (!au.isInstall(packname)) {
-			Dialog dialog = new AlertDialog.Builder(aQuery.getContext())
-					.setTitle(
-							aQuery.getContext().getResources()
-									.getString(R.string.pmt))
-					.setMessage("需要下载PCTOO播放器,是否下载?")
-					.setPositiveButton(
-							aQuery.getContext().getResources()
-									.getString(R.string.confirm),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									final Handler handler = new Handler();
-									new AsyncTask<Void, Void, Void>() {
-										@Override
-										protected Void doInBackground(
-												Void... params) {
-											UpdateVersion uv = UpdateVersion.instance(
-													aQuery.getContext(),
-													handler, true, false, null);
-											uv.setLoadApkName(packname);
-											String downPath = HttpRequest
-													.getInstance()
-													.getURL_QUERY_DOWNLOAD_URL()
-													+ downloadpath;
-											uv.setUpdateUrl(downPath);
-											uv.run();
-											return null;
-										}
-									}.execute();
-								}
-							})
-					.setNegativeButton(
-							aQuery.getContext().getResources()
-									.getString(R.string.cancle),
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									dialog.dismiss();
-								}
-							}).create();
-			dialog.show();
+//			Dialog dialog = new AlertDialog.Builder(aQuery.getContext())
+//					.setTitle(
+//							aQuery.getContext().getResources()
+//									.getString(R.string.pmt))
+//					.setMessage("需要下载PCTOO播放器,是否下载?")
+//					.setPositiveButton(
+//							aQuery.getContext().getResources()
+//									.getString(R.string.confirm),
+//							new DialogInterface.OnClickListener() {
+//								@Override
+//								public void onClick(DialogInterface dialog,
+//										int which) {
+//									final Handler handler = new Handler();
+//									new AsyncTask<Void, Void, Void>() {
+//										@Override
+//										protected Void doInBackground(
+//												Void... params) {
+//											UpdateVersion uv = UpdateVersion.instance(
+//													aQuery.getContext(),
+//													handler, true, false);
+//											uv.setLoadApkName(packname);
+////											String downPath = HttpRequest
+////													.getInstance()
+////													.getURL_QUERY_DOWNLOAD_URL()
+////													+ downloadpath;
+//											uv.setUpdateUrl(downloadpath);
+//											uv.run();
+//											return null;
+//										}
+//									}.execute();
+//								}
+//							})
+//					.setNegativeButton(
+//							aQuery.getContext().getResources()
+//									.getString(R.string.cancle),
+//							new DialogInterface.OnClickListener() {
+//								public void onClick(DialogInterface dialog,
+//										int whichButton) {
+//									dialog.dismiss();
+//								}
+//							}).create();
+//			dialog.show();
+			setUpdateDiago(downloadpath, packname);
 		} else {
+			/**
+			 * Intent  musicIntent = new Intent();
+							musicIntent.putExtra("albumid", HttpRequest.getInstance().getId());
+							musicIntent.putExtra("flag", "0_2");
+						musicIntent.putExtra("webRoot", HttpRequest.getInstance().getWEB_ROOT());
+						musicIntent.putExtra("myToken", HttpRequest.getInstance().getMytoken());
+						musicIntent.putExtra("webRootDetail", HttpRequest.getInstance().getSTATIC_WEB_ROOT());
+						musicIntent.putExtra("type",HttpRequest.getInstance().getType());
+						musicIntent.putExtra("pageSize", "10");
+						musicIntent.putExtra("currpage", currentPage);
+						callCCBookPlayer(count, packname, downloadpath, photoList)
+						musicIntent.setClassName(packname, packnameMain);
+			 */
 			Intent intent = new Intent();
+			//------------------------------------------------
+			intent.putExtra("flag", "19_2");
+			intent.putExtra("myToken", HttpRequest.getInstance().getMytoken());
+			intent.putExtra("webRoot", HttpRequest.getInstance().getWEB_ROOT());
+			intent.putExtra("currpage", currentPage);
+			intent.putExtra("pageSize", "10");
+			intent.putExtra("albumid", HttpRequest.getInstance().getId());
+			//-----------------------------------------------------
 			intent.putExtra("id", HttpRequest.getInstance().getId());
 			intent.putExtra("position", count);
 			intent.putExtra("countPage", HttpRequest.getInstance().getCount());
 			intent.putExtra("type", HttpRequest.getInstance().getType());
 			intent.putExtra("mytoken", HttpRequest.getInstance().getMytoken());
 			intent.putExtra("photopath", photoList);
-			intent.setClassName(packname, packname + ".MainActivity");
+			intent.putExtra("webroot", HttpRequest.getInstance().getWEB_ROOT());
+			if(HttpRequest.getInstance().getWEB_ROOT().contains("192")){
+				intent.putExtra("STATIC_WEB_ROOT", "192.168.1.3:2014/");
+				intent.putExtra("webRootDetail","192.168.1.3:2014/");
+			}else{
+				intent.putExtra("webRootDetail", "http://html.vocy.com/");
+				intent.putExtra("STATIC_WEB_ROOT", "http://html.vocy.com/");
+			}
+			if(HttpRequest.getInstance().getType().equals("19")){
+			intent.setClassName(packname, packname + ".activity.MainActivity");
+			}else{
+				intent.setClassName(packname, packname + ".MainActivity");
+			}
 			startActivity(intent);
 		}
 	}
@@ -2012,7 +2192,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * 初始化游戏的一些数据
 	 */
 	private void initGamesData(String id) {
-		setContentView(R.layout.gamesdetail);
+		Intent  i  =new Intent(MainActivity.this,CCVitamioPlayer.class);
+		startActivity(i);
+		finish();
+/*		setContentView(R.layout.gamesdetail);
 		HttpRequest.getInstance().setId(id);
 		httpRequest.setCount(1);
 		layoutview = (RelativeLayout) findViewById(R.id.line_movie_main);
@@ -2030,7 +2213,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		btn_game_pagedown = (Button) findViewById(R.id.btn_game_pagedown);
 		tv_totalrows = (TextView) findViewById(R.id.tv_totalrows); // 总数
 		tv_currentpage = (TextView) findViewById(R.id.tv_currentpage); // 当前页
-		game_gridview = (GridView) findViewById(R.id.game_gridview);
+  		game_gridview = (GridView) findViewById(R.id.game_gridview);
 		btn_game_pagedown.setOnClickListener(this);
 		btn_game_pageup.setOnClickListener(this);
 		game_gridview.setVisibility(View.VISIBLE);
@@ -2047,8 +2230,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				System.out.println("game_gridview===============>");
-				System.out.println("gamebena是否为null"
-						+ gameBean.getGameBeanList().get(position).getId());
 				if (null != gameBean) {
 					String changeId = gameBean.getGameBeanList().get(position)
 							.getId();
@@ -2062,13 +2243,13 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View itemView,
 					int arg2, long arg3) {
-				/*
+				
 				 * if (itemView != null) {
 				 * itemView.startAnimation(AnimationTools.getMaxAnimation(100));
 				 * } if (preView != null) {
 				 * preView.startAnimation(AnimationTools.getMiniAnimation(100));
 				 * } preView = itemView;
-				 */
+				 
 				App.playSound(getResources().getString(
 						R.string.sound_movie_select));
 			}
@@ -2124,7 +2305,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 			}
 		};
-		getGameInfo();
+		getGameInfo();*/
 	}
 
 	/**
@@ -2316,6 +2497,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	 */
 
 	private void getVideoPlayPath(final String webUrl, String QUALITYID) {
+		System.out.println("电视剧的原始网页地址"+webUrl);
 		String encryptURL = CryptUtil.getInstance().encryptURL(webUrl);
 		
 		String videoWebUrlRequest = "http://apk.vocy.com/html/request.jsp"
@@ -2324,18 +2506,18 @@ public class MainActivity extends Activity implements OnClickListener {
 		re_movie_loading.setVisibility(View.VISIBLE);
 		String addFavMoviePaht = HttpRequest.getInstance()
 				.getURL_LIST_ADDFAVMOVIE() + HttpRequest.getInstance().getId();
-		System.out.println("要获得的地址为======" + videoWebUrlRequest);
 		addMovieFav(addFavMoviePaht);
 		if("1".equals(httpRequest.getType())){
 		setVideoInfo(QUALITYID, webUrl);
 		}
+		System.out.println("videoWebUrlRequest的下载地址为"+videoWebUrlRequest);
 			aQuery.ajax(videoWebUrlRequest, String.class,
 					new AjaxCallback<String>() {
 						@Override
 						public void callback(String url, String object,
 								AjaxStatus status) {
 							re_movie_loading.setVisibility(View.GONE);
-							if (url != null) {
+							if (object != null) {
 								try {
 									JSONObject jo = new JSONObject(object);
 									String result = jo.getString("SUCCESS");
@@ -2351,7 +2533,7 @@ public class MainActivity extends Activity implements OnClickListener {
 										Uri uri = Uri.parse(webUrl);
 										Intent it = new Intent(
 												Intent.ACTION_VIEW, uri);
-										aQuery.getContext().startActivity(it);
+									startActivity(it);
 									}
 								} catch (Exception e) {
 									// TODO Auto-generated catch
@@ -2401,4 +2583,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		}.execute();
 	}
+	
+	
 }

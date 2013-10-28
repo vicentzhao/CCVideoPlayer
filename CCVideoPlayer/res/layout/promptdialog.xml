@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="800dip"
+    android:layout_height="600dip"
+    android:layout_gravity="center"
+    android:background="@drawable/barbg">
+
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:background="@drawable/load"
+        android:layout_centerInParent="true"
+         />
+
+    <TextView
+        android:id="@+id/tv_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        android:textSize="@dimen/text_size_24"
+        android:layout_below="@id/iv_loading"
+        android:layout_marginTop="15dp"
+        android:gravity="center"/>
+       <TextView
+        android:id="@+id/tv_processbar"
+        android:layout_below="@+id/tv_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:textSize="@dimen/text_size_24"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        />
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/playToastBackgroundImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/playToastBackgroundImageView" />
+
+    <ImageView
+        android:id="@+id/playToastImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="80.0dip"
+        android:background="#00000000"
+        android:contentDescription="@string/playToastImageView"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/playToastContentView"
+        android:layout_width="40.0dip"
+        android:layout_height="40.0dip"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="#fff8f8ff"
+        android:textSize="12.0sp" />
+
+</RelativeLayout>

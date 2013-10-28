@@ -18,9 +18,19 @@ public class EduBean {
     "THIRD": "7",
     "NOTE": "精华在线教学视频",
     "USN": "0086000010234075"
+    "NUM":"1"
 	 */
 	
-	private String id,rose,kind,pic,name,note;
+	private String id,rose,kind,pic,name,note,num;
+	
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
 
 	public String getId() {
 		return id;

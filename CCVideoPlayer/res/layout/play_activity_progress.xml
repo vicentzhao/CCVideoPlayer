@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:visibility="gone"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/progressBackground"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/progressFrame"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:background="#00000000" />
+
+    <ImageView
+        android:id="@+id/seekProgress"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:layout_centerVertical="true"
+        android:background="#00000000" />
+
+    <ImageView
+        android:id="@+id/playProgress"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:layout_centerVertical="true"
+        android:background="#00000000" />
+
+    <ImageView
+        android:id="@+id/seekTimeImageView"
+        android:layout_width="100.0dip"
+        android:layout_height="20.0dip"
+        android:background="#00000000" />
+
+    <TextView
+        android:id="@+id/seekTimeTextView"
+        android:layout_width="20.0dip"
+        android:layout_height="20.0dip"
+        android:textColor="#fff8f8ff"
+        android:textSize="@dimen/text_size_20" />
+
+    <TextView
+        android:id="@+id/tvFromHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/time_start_from_history_focuesd"
+        android:gravity="center_horizontal"
+        android:text="从00:00:00继续播放"
+        android:textColor="#fff8f8ff"
+        android:textSize="@dimen/text_size_20"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvFromBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tvFromBegin"
+        android:background="@drawable/time_start_from_begin"
+        android:gravity="center_horizontal"
+        android:text="重新播放"
+        android:textColor="#ff000000"
+        android:textSize="@dimen/text_size_20"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/curDuration"
+        android:text="curDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="#fff8f8ff"
+        android:textSize="@dimen/text_size_20" />
+
+    <TextView
+        android:id="@+id/leftDuration"
+        android:text="leftDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="#fff8f8ff"
+        android:textSize="@dimen/text_size_20" />
+
+</RelativeLayout>

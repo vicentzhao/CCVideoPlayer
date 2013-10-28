@@ -34,19 +34,19 @@ public class JSONUtil {
 				movie = new MovieBean();
 				movie.setId(jsonO.getString("ID"));
 				movie.setName(jsonO.getString("NAME"));
-				movie.setOrotagonist(jsonO.getString("OROTAGONIST"));
+				movie.setOrotagonist(jsonO.getString("SYNOPSIS"));
 				movie.setType(jsonO.getString("TYPE"));
 				movie.setActor(jsonO.getString("PROTAGONIST"));
 				movie.setStatus(jsonO.getString("STATUS"));
 				movie.setAddtime(jsonO.getString("DECADE"));
 				movie.setPlayingTime(jsonO.getString("TIME"));
-				movie.setArea(jsonO.getString("AREAINCHINESE"));
+//				movie.setArea(jsonO.getString("AREAINCHINESE"));
 				
 				movie.setPic(jsonO.getString("PIC"));
 //				movie.setRr(jsonO.getString("RR"));	
 				movie.setCategory(jsonO.getString("CATEGORY"));
 				movie.setDirector(jsonO.getString("DIRECTOR"));
-				movie.setOrotagonist(jsonO.getString("OROTAGONIST"));
+				movie.setOrotagonist(jsonO.getString("SYNOPSIS"));
 				ArrayList<String> defaultPlayList = new ArrayList<String>();
 				
 					 ArrayList<VideoPlayInfo> VideoPlayInfoList;
@@ -61,6 +61,24 @@ public class JSONUtil {
 							sourceList.add(type);
 							JSONArray videoPlayInfoArray =videoJson.getJSONArray("moviesource");
 							for (int i = 0; i < videoPlayInfoArray.length(); i++) {
+								/**
+								 *   "ID": "3",
+                    "URL": "http://g3.letv.cn/vod/v2/MzAvMzkvNzYvbGV0di11dHMvMzcwODYxOC1BVkMtNTM3OTM1LUFBQy0zMTU4Ni01Mjk2ODgwLTM4OTg0ODIyNy04NzcyOWVjMDI4MmYzODhhMDgxNGJjZGU4NzMwNDVhZi0xMzY5MjMwMTYzNTM2LmZsdg==?b=588&mmsid=336598&tm=1374675631&key=11111171be01a1e880cf48abbf973cc8&platid=1&splatid=101&playid=0&tss=no",
+                    "WID": "137465088697000001",
+                    "QUALITYID": "1000",
+                    "USN": "1086000002443701",
+                    "STATUS": "1",
+                    "ADDTIME": "2013-07-27 03:09:20",
+                    "SORT": "1",
+                    "UNITSNAME": "乐视",
+                    "NAME": "1000",
+                    "QUALITY": "超清",
+                    "RESOLUTION": "1920×1080",
+                    "FLAG": "0",
+                    "普通用户": "30",
+                    "VIP用户": "20",
+                    "包月用户": "0"
+								 */
 								vpi = new VideoPlayInfo();
 								JSONObject videoPlayInfoJson = videoPlayInfoArray.getJSONObject(i);
 								String QUALITY_CN =null;
@@ -68,17 +86,18 @@ public class JSONUtil {
 									QUALITY_CN=videoPlayInfoJson.getString("QUALITY");
 								}
 								String QUALITYID=videoPlayInfoJson.getString("QUALITYID");
-								String PATH =videoPlayInfoJson.getString("PATH");
+//								String PATH =videoPlayInfoJson.getString("PATH");
 								String ID =videoPlayInfoJson.getString("ID");
-								String webUrl=videoPlayInfoJson.getString("URL");
+//								String webUrl=videoPlayInfoJson.getString("URL");
 								String nomaluser=videoPlayInfoJson.getString("普通用户");
 								String vipuser=videoPlayInfoJson.getString("VIP用户");
 								String monthuser=videoPlayInfoJson.getString("包月用户");
 								String resolution=videoPlayInfoJson.getString("RESOLUTION");
 								vpi.setQuality_cn(QUALITY_CN);
 								vpi.setId(ID);
-								vpi.setPlayPath(PATH);
-								vpi.setWebUrl(webUrl);
+//								vpi.setPlayPath(PATH);
+								
+								vpi.setWebUrl(defaultPlayUrl);
 								vpi.setResolution(resolution);
 								vpi.setNomaluser(nomaluser);
 								vpi.setVipuser(vipuser);
@@ -112,7 +131,7 @@ public class JSONUtil {
     "DECADE": "",
     "AREA": "",
     "CATEGORY": "1",
-    "LABEL": "",
+    "   ": "",
     "AREAINCHINESE": "",
     "PRODUCER": "",
     "WRITER": "",
@@ -130,6 +149,9 @@ public class JSONUtil {
 			JSONObject jo = new JSONObject(tvbean);
 			tv.setName(jo.getString("NAME"));
 			tv.setSynopsis(jo.getString("SYNOPSIS"));
+			tv.setProtagonist(jo.getString("PROTAGONIST"));
+			tv.setDirector(jo.getString("DIRECTOR"));
+			tv.setArea(jo.getString("AREA"));
 			tv.setType(jo.getString("TYPE"));
 			tv.setPic(jo.getString("PIC"));
 			tv.setNum(jo.getString("SETNUMBER"));
@@ -171,11 +193,12 @@ public class JSONUtil {
 				}else{
 					source ="未知";
 				}
-				if(!jplay.isNull("videopath")&&!"".equals(jplay.getString("videopath"))){
-					ppb.setVideoPath(jplay.getString("videopath").trim());
-				}else{
-					ppb.setHtmlPath(jplay.getString("htmlpath").trim());
+				if(!jplay.isNull("HTMLPATH")&&!"".equals(jplay.getString("HTMLPATH"))){
+					ppb.setHtmlPath(jplay.getString("HTMLPATH").trim());
 				}
+//				else{
+//					ppb.setHtmlPath(jplay.getString("HTMLPATH").trim());
+//				}
 				ppb.setUnitsname(source);
 				list.add(ppb);
 			}
@@ -213,6 +236,7 @@ public class JSONUtil {
 			bean.setName(jo.getString("NAME"));
 			bean.setNote(jo.getString("NOTE"));
 			String path = jo.getString("PIC");
+			bean.setNum(jo.getString("NUM"));
 			if(path.contains("http")){
 				bean.setPic(path);
 			}else{
