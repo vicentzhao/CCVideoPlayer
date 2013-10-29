@@ -97,59 +97,78 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
     -->
-
-    <LinearLayout
-        android:visibility="gone"
+
+    <RelativeLayout
+        android:id="@+id/rl_playcontrol_mainseekbar"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="60dip"
-        android:layout_marginTop="100dip" 
-        android:id="@+id/rl_playcontrol_mainseekbar"
-        >
-  <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:layout_marginTop="500dip" >
-        <TextView
-            android:id="@+id/tv_playcontrol_currenttimer"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:text="00:00:00"
-            android:layout_weight="1"
-            android:focusable="false"
-            android:textColor="#00a0de"
-            android:textSize="22dip" />
+        android:layout_marginTop="100dip"
+        android:visibility="visible" >
 
-        <SeekBar
-            android:id="@+id/controller_seekbar"
-            android:layout_weight="10"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="10dip"
-            android:max="100"
-            android:maxHeight="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:progressDrawable="@drawable/menu_player_controller_seekbar_style"
-            android:thumb="@drawable/seekbar_thumb_img"
-            android:thumbOffset="3dip" />
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/tv_playcontrol_totaltime"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:focusable="false"
-            android:text="00:00:00"
-            android:textColor="#00a0de"
-            android:textSize="22dip" />
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="500dip"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_playcontrol_currenttimer"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:text="00:00:00"
+                android:textColor="#00a0de"
+                android:textSize="22dip" />
+
+            <SeekBar
+                android:id="@+id/controller_seekbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="10"
+                android:max="100"
+                android:maxHeight="10dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:progressDrawable="@drawable/menu_player_controller_seekbar_style"
+                android:thumb="@drawable/seekbar_thumb_img"
+                android:thumbOffset="3dip" />
+
+            <TextView
+                android:id="@+id/tv_playcontrol_totaltime"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:text="00:00:00"
+                android:textColor="#00a0de"
+                android:textSize="22dip" />
         </LinearLayout>
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_tv_seekbartimers"
+            android:layout_width="120dip"
+            android:layout_height="50dip"
+            android:text="1:20:30"
+            android:textColor="@color/text_color_f0f0f0"
+            android:paddingBottom="16dip"
+            android:layout_marginBottom="25dip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="80dip"
+            android:background="@drawable/player_dialog_timers"
+            android:textSize="@dimen/text_size_24" />
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/RelativeLayout_playcontroll_voicebar"
         android:layout_width="100dip"
@@ -210,6 +229,7 @@
         
     </RelativeLayout>
     <RelativeLayout 
+        android:visibility="invisible"
         android:id="@+id/re_player_loading"
     android:layout_width="800dip"
     android:layout_height="600dip"

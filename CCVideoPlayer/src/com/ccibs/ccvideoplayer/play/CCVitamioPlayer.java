@@ -105,7 +105,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private RelativeLayout episode_layout;  //选集头界面
 	private RelativeLayout relEpisode;  //选集界面
 	private RelativeLayout relativeLayout_playcontroll_voicebar;  //声音界面
-	private LinearLayout rl_playcontrol_mainseekbar;  //播放进度界面
+	private RelativeLayout rl_playcontrol_mainseekbar;  //播放进度界面
 	private RelativeLayout  re_player_loading;
 	
 
@@ -120,7 +120,13 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private TextView  tv_playcontrol_totaltime;  //总时间
 	private ImageView playMaskImageView; //播放背景
 	private TextView  tv_processbar ;  //缓冲度
+	private Button  btn_tv_seekbartimers;     //seekbar上面的timers
+	
+	
+	
 	private int currentVocie ;
+	
+	private boolean isSeekTimersInit ;   //是否是seekbar上的time第一次加载
 	
 	private int currentProgress ;   // 当前进度
 	
@@ -136,6 +142,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private int focusViewId;   //焦点所在的位置   seekbar
 	private int mDuration = -1;// 当前播放位置
 	private int _progress; 
+	
 	
 	private boolean isSeekTO =true;  //是否跳转
 	private boolean isSeekTOTEST =true;  //是否跳转测试
@@ -170,6 +177,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 		String num = i.getStringExtra("num");//电视剧总级数
 		String url =i.getStringExtra("url"); //当前播放视频的web地址
 		System.out.println("传过来的url地址为"+url);
+//		initVideoSeekBarTimers();
 //		url="http://v.youku.com/v_show/id_XMjQ0ODk0NTAw.html";
 //		url="http://www.letv.com/ptv/pplay/91112/1.html";
 		url="http://v.youku.com/v_show/id_XMjQ0ODk0NTAw.html";
@@ -263,8 +271,77 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 					boolean fromUser) {
 
 				if (fromUser&&isInPlaybackState()) {
-					LayoutParams layoutParams = seekBar.getLayoutParams();
-					setCurrentTimeLayout(layoutParams);
+					float y = seekBar.getY();
+//					int xPos = (((seekBar.getRight() - seekBar.getLeft()) * seekBar.getProgress()) /
+//							seekBar.getMax()) + seekBar.getLeft()-33;
+					int xPos =seekBar.getLeft()+
+							((seekBar.getRight()-seekBar.getLeft())*progress/100);
+					 float totaltimes  = mMediaPlayer.getDuration()*progress/100;
+					 float f = totaltimes / 1000;
+					    int i = (int)f / 3600;
+					    int j = (int)f / 60 - i * 60;
+					    int k = (int)f % 60;
+					    if (i == 0){
+					    	btn_tv_seekbartimers.setText(j + ":" + k);
+					    }else{
+					    	btn_tv_seekbartimers.setText(i + ":" + j + ":" + k);
+					    }
+					 if(progress<5){
+							xPos= xPos - 40; 
+					 }else if(progress<10){
+						 xPos= xPos - 43;
+					 }
+					 else if(progress<15){
+						 xPos= xPos - 46;
+					 }
+					 else if(progress<20){
+						 xPos= xPos - 49;
+					 }
+					 else if(progress<25){
+						 xPos= xPos - 52;
+					 }
+					 else if(progress<30){
+						 xPos= xPos - 54;
+					 }
+					 else if(progress<35){
+						 xPos= xPos -56;
+					 }else if(progress<40){
+						 xPos= xPos - 58;
+					 }
+					 else if(progress<45){
+						 xPos= xPos - 60;
+					 }
+					 else if(progress<50){
+						 xPos= xPos -62;
+					 }
+					 else if(progress<55){
+						 xPos= xPos - 64;
+					 }
+					 else if(progress<60){
+						 xPos= xPos - 66;
+					 }
+					 else if(progress<65){
+						 xPos= xPos - 68;
+					 }
+					 else if(progress<70){
+						 xPos= xPos - 70;
+					 }
+					 else if(progress<75){
+						 xPos= xPos - 72;
+					 }
+					 else if(progress<80){
+						 xPos= xPos - 74;
+					 }
+					 else if(progress<85){
+						 xPos= xPos - 76;
+					 }
+					 else if(progress<90){
+						 xPos= xPos - 78;
+					 }else{
+				    	xPos=xPos - 80;
+				    }
+					 System.out.println("x==="+xPos+"y======"+y);
+					setCurrentTimeLayout(xPos,progress);
 					focusViewId = R.id.controller_seekbar;
 					Log.i(TAG, "controller.seekBar  onChanged-->"+ progress);
 					System.out.println("fromProgress======"+progress);
@@ -275,8 +352,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 //					syncTimeBar((mMediaPlayer.getDuration()* currentProgress) / 100, (mMediaPlayer.getDuration()));
 				}
 			}
-
-		
 		});
 		
 	
@@ -342,18 +417,45 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				 timer.schedule(tt,2000,4000);
 	
 	}
+	
+	/**
+	 *  设置seekbar
+	 */
+	
+    private void initVideoSeekBarTimers(){
+//    	LayoutParams layoutParams = videoSeekBar.getLayoutParams();
+    	float x = videoSeekBar.getX();
+    	float y = videoSeekBar.getY();
+        final Button tv = new Button(aQuery.getContext());
+        final LinearLayout.LayoutParams rpMini = new LinearLayout.LayoutParams(
+                100, 50);
+//                rpMini.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//                tv.setLayoutParams(rpMini);
+                tv.setPadding(0, 0, 0, 20);
+                tv.setTextSize(24);
+        tv.setText("1:23:04");
+        tv.setBackgroundResource(R.drawable.player_dialog_timers);
+        tv.setX(x);
+        tv.setY(y-100);
+        System.out.println("x==="+x+"y======"+y);
+        tv.setLayoutParams(rpMini);
+        rl_playcontrol_mainseekbar.addView(tv);
+    	
+    	
+    }
 	 
 	 /**
 	  * 设置seekbar上面的时间图标
 	  * @param layoutParams
 	  */
 	
-	private void setCurrentTimeLayout(LayoutParams layoutParams) {
-		// TODO Auto-generated method stub
-//	 layoutParams.height =layoutParams.height-30;
-	 Button tv = new Button(aQuery.getContext());
-	 tv.setText("这只是测试");
-	 tv.setLayoutParams(layoutParams);	
+	private void setCurrentTimeLayout(float x ,float y) {
+        btn_tv_seekbartimers.setTextSize(24);
+//        btn_tv_seekbartimers.setText("1:23:04");
+        btn_tv_seekbartimers.setBackgroundResource(R.drawable.player_dialog_timers);
+        btn_tv_seekbartimers.setX(x);
+//        btn_tv_seekbartimers.setY(y);   
+        isSeekTimersInit = false;
 	}
 	
 	public void syncTimeBar(long l, long m) {
@@ -798,7 +900,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			source_layout=(RelativeLayout) findViewById(R.id.play_setting).findViewById(R.id.source_layout);
 			episode_layout=(RelativeLayout) findViewById(R.id.play_setting).findViewById(R.id.episode_layout);
 			relativeLayout_playcontroll_voicebar=(RelativeLayout)findViewById(R.id.RelativeLayout_playcontroll_voicebar);
-			rl_playcontrol_mainseekbar=(LinearLayout)findViewById(R.id.rl_playcontrol_mainseekbar);
+			rl_playcontrol_mainseekbar=(RelativeLayout)findViewById(R.id.rl_playcontrol_mainseekbar);
 			definition_layout=(RelativeLayout) findViewById(R.id.play_setting).findViewById(R.id.definition_layout);
 			relEpisode=(RelativeLayout) findViewById(R.id.play_setting).findViewById(R.id.relEpisode);
 			tvEpisode=(TextView) findViewById(R.id.play_setting).findViewById(R.id.tvEpisode);
@@ -810,6 +912,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			tv_playcontrol_currenttimer=(TextView) findViewById(R.id.tv_playcontrol_currenttimer);
 			iv_playcontrol_pause=(ImageView) findViewById(R.id.iv_playcontrol_pause);
 			playMaskImageView=(ImageView) findViewById(R.id.playMask).findViewById(R.id.playMaskImageView);
+			btn_tv_seekbartimers = (Button) findViewById(R.id.btn_tv_seekbartimers);
 		  
 	  }
 	  
