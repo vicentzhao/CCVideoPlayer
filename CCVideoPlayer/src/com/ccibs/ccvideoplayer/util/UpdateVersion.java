@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ccibs.ccvideoplayer.R;
+import com.ccibs.ccvideoplayer.constant.Constant;
 
 public class UpdateVersion implements Runnable {
 
@@ -172,7 +173,6 @@ public class UpdateVersion implements Runnable {
 	private int percent;
 	private Dialog dialogbar ;
 	private TextView tv_progressbar;
-	private boolean isSlientInstall = false;
 
 	private void downLoad(String url, File file) {
 
@@ -262,7 +262,7 @@ public class UpdateVersion implements Runnable {
 	}
 	private void install() {
 		mflag=true;
-		if(isSlientInstall ){		
+		if(Constant.ISSlientInstall ){		
 		try {
 			boolean isSuccess =slientInstall(fileName);
 			if(isSuccess){

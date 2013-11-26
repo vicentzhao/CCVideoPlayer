@@ -10,6 +10,7 @@
       <color name="tv_episode_focused">#0075f7</color>
       <color name="tv_episode_unfocused">#ff9900</color>
       <color name="tv_episode_count_focused">#00448d</color>
+      <color name="tv_episode_count_selected">#fe9b0e</color>
       <color name="tv_episode_count_unfocused">#002a56</color>
       
       <color name="controller_bg">#80006454</color>

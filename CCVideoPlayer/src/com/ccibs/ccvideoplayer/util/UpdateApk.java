@@ -13,9 +13,10 @@ import android.widget.TextView;
 import com.ccibs.ccvideoplayer.R;
 
 public class UpdateApk {
+	public static Dialog dialog ;
 	 public  static void setInstall(final Context context,final String packName, final String downPath) {
 			final Handler hd = new Handler();			
-			final Dialog dialog = new Dialog(context,	R.style.Theme_Dialog);
+			 dialog = new Dialog(context,R.style.Theme_Dialog);
 			dialog.setContentView(R.layout.exitdialog);
 			Button btn_yes = (Button) dialog.findViewById(R.id.btn_yes);
 			Button btn_no = (Button) dialog.findViewById(R.id.btn_no);

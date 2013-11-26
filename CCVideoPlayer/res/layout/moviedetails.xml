@@ -232,10 +232,11 @@
                 android:layout_marginTop="5dip" >
 
                 <TextView
+                    
                     android:focusable="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="【导　　演】："
+                    android:text="【年        代】："
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
 

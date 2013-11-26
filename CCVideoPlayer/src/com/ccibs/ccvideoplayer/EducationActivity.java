@@ -2,6 +2,7 @@ package com.ccibs.ccvideoplayer;
 
 import java.util.ArrayList;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -9,9 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -23,10 +26,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.ccibs.ccvideoplayer.adapter.EduGridAdapter;
 import com.ccibs.ccvideoplayer.bean.EduBean;
 import com.ccibs.ccvideoplayer.bean.EduPlayBean;
-import com.ccibs.ccvideoplayer.util.HttpRequest;
 import com.ccibs.ccvideoplayer.util.JSONUtil;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class EducationActivity extends Activity {
 

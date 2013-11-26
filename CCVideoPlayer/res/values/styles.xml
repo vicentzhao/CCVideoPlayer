@@ -50,4 +50,6 @@
         <item name="android:layout_height">94dip</item>
         <item name="android:focusable">true</item>
     </style>
+    
+    
 </resources>

@@ -1,4 +1,4 @@
-package com.ccibs.ccvideoplayer.play;
+ package com.ccibs.ccvideoplayer.play;
 
 import io.vov.vitamio.LibsChecker;
 import io.vov.vitamio.MediaPlayer;
@@ -25,11 +25,13 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -51,7 +53,10 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.ccibs.ccvideoplayer.R;
+import com.ccibs.ccvideoplayer.bean.PlayPathBean;
 import com.ccibs.ccvideoplayer.util.HttpRequest;
+import com.ccibs.ccvideoplayer.util.HttpUtil;
+import com.ccibs.ccvideoplayer.util.JSONUtil;
 import com.ccibs.ccvideoplayer.util.pathparse.Letv;
 
 public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
@@ -90,12 +95,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private boolean mIsVideoSizeKnown = false;
 	private boolean mIsVideoReadyToBePlayed = false;
 	
-	private String path1="http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030001070052412DC02C5300422C39EBED4FE4-2CCC-71BB-6AC3-59B4332828D7?K=7dcc204ff21af5da2828f274";
-	private String path2="http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030001070152412DC02C5300422C39EBED4FE4-2CCC-71BB-6AC3-59B4332828D7?K=60ab6764c3ea37402828f274";
-	private String path3="http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030001070252412DC02C5300422C39EBED4FE4-2CCC-71BB-6AC3-59B4332828D7?K=e9dcd0a096b6accf261d3f78";
-	private String path4="http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030001070352412DC02C5300422C39EBED4FE4-2CCC-71BB-6AC3-59B4332828D7?K=5a5af8b19ce6024624118c7b";
-	private String path5="http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030001070452412DC02C5300422C39EBED4FE4-2CCC-71BB-6AC3-59B4332828D7?K=eb9a585e30c6be092828f274";
-	String myPath[] ={path1,path2,path3,path4};
 	private AQuery aQuery;
 	
 	private ImageView iv_playcontrol_pause; //暂停按钮
@@ -106,7 +105,8 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private RelativeLayout relEpisode;  //选集界面
 	private RelativeLayout relativeLayout_playcontroll_voicebar;  //声音界面
 	private RelativeLayout rl_playcontrol_mainseekbar;  //播放进度界面
-	private RelativeLayout  re_player_loading;
+//	private RelativeLayout  re_player_loading;
+	private RelativeLayout  re_player_loading_buffer;
 	
 
 	private ListView definitionList; // 清晰度列表
@@ -120,9 +120,8 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private TextView  tv_playcontrol_totaltime;  //总时间
 	private ImageView playMaskImageView; //播放背景
 	private TextView  tv_processbar ;  //缓冲度
+	private TextView  txt_loading_whatshow ;  //缓冲显示的文字
 	private Button  btn_tv_seekbartimers;     //seekbar上面的timers
-	
-	
 	
 	private int currentVocie ;
 	
@@ -142,6 +141,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private int focusViewId;   //焦点所在的位置   seekbar
 	private int mDuration = -1;// 当前播放位置
 	private int _progress; 
+	private int sourceCount ;  //播放源的位置
 	
 	
 	private boolean isSeekTO =true;  //是否跳转
@@ -172,18 +172,20 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 		mPreview = (SurfaceView) findViewById(R.id.playSurfaceView);
 		initView();
 		Intent i =getIntent();
+		String url =i.getStringExtra("url"); //当前播放视频的web地址
+		System.out.println("传过来的url地址为"+url);
+//		url="rtsp://119.254.80.172/abc.mp4";
+		HttpRequest.getInstance().setUrl(url);
 		String episode=i.getStringExtra("Episode"); //当前级数
 		String type =i.getStringExtra("type"); //频道类型
 		String num = i.getStringExtra("num");//电视剧总级数
-		String url =i.getStringExtra("url"); //当前播放视频的web地址
-		System.out.println("传过来的url地址为"+url);
 //		initVideoSeekBarTimers();
 //		url="http://v.youku.com/v_show/id_XMjQ0ODk0NTAw.html";
 //		url="http://www.letv.com/ptv/pplay/91112/1.html";
-		url="http://v.youku.com/v_show/id_XMjQ0ODk0NTAw.html";
+//		url="http://v.youku.com/v_show/id_XMjQ0ODk0NTAw.html";
 		String videoPath =i.getStringExtra("videopath"); //当前播放video 真实地址，如果有直接播放
-		HttpRequest.getInstance().setVideoPath(videoPath);
-		HttpRequest.getInstance().setUrl(url);
+		System.out.println("传过来的url地址为"+videoPath);
+		HttpRequest.getInstance().setVideoPath(videoPath); 
 		HttpRequest.getInstance().setVideoPath(videoPath);
 //		String path = HttpRequest.getInstance().getURL_TVEpisode_Play();
 		adapterDefinitionData =new String[]{"高清","标清","流畅"};
@@ -221,7 +223,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			}
 		});
 		episode_layout.setOnKeyListener(new OnKeyListener() {
-			
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				// TODO Auto-generated method stub
@@ -253,19 +254,17 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				Log.i(TAG, "controller.seekbar onStop");
 				if(isInPlaybackState()){
-					re_player_loading.setVisibility(View.VISIBLE);
+//					re_player_loading.setVisibility(View.VISIBLE);
+					re_player_loading_buffer.setVisibility(View.VISIBLE);
 					mMediaPlayer.pause();
 					doSeek(currentProgress);
-					
 				}
 			}
-
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				Log.i(TAG, "controller.seekbar onStart");
+				Log.i  (TAG, "controller.seekbar onStart");
 			
 			}
-
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
@@ -353,9 +352,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				}
 			}
 		});
-		
-	
-		
 		videoSeekBar.setOnKeyListener(new OnKeyListener() {
 
 			@Override
@@ -377,23 +373,15 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			}
 		});
 		initVolume();
-		
 	      voiceBar.setOnSeekBarChangeListener(new com.ccibs.ccvideoplayer.view.SeekBar.OnSeekBarChangeListener() {
-			
 			public void onStopTrackingTouch(
 					com.ccibs.ccvideoplayer.view.SeekBar VerticalSeekBar) {
 				// TODO Auto-generated method stub
-				
 			}
-			
-			
 			public void onStartTrackingTouch(
 					com.ccibs.ccvideoplayer.view.SeekBar VerticalSeekBar) {
 				// TODO Auto-generated method stub
-				
 			}
-			
-			
 			public void onProgressChanged(
 					com.ccibs.ccvideoplayer.view.SeekBar VerticalSeekBar, int progress,
 					boolean fromUser) {
@@ -404,7 +392,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				
 			}
 		});
-	      
 	      TimerTask tt = new TimerTask() {
 				 @Override
 				 public void run() {
@@ -415,7 +402,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				 };
 				 Timer timer = new Timer();
 				 timer.schedule(tt,2000,4000);
-	
 	}
 	
 	/**
@@ -440,8 +426,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
         System.out.println("x==="+x+"y======"+y);
         tv.setLayoutParams(rpMini);
         rl_playcontrol_mainseekbar.addView(tv);
-    	
-    	
     }
 	 
 	 /**
@@ -525,8 +509,10 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 //		return mDialog;
 //	}
 	private void initDialog() {
-		re_player_loading = (RelativeLayout) findViewById(R.id.re_player_loading);
-		tv_processbar = (TextView) findViewById(R.id.tv_processbar);
+//		re_player_loading = (RelativeLayout) findViewById(R.id.re_player_loading);
+		re_player_loading_buffer = (RelativeLayout) findViewById(R.id.re_player_loading_buffer);
+		tv_processbar = (TextView) findViewById(R.id.txt_loading_buffercount);
+		txt_loading_whatshow = (TextView) findViewById(R.id.txt_loading_whatshow);
 		ImageView logo = (ImageView)findViewById(R.id.iv_loading);
 		logo.setAnimation(AnimationUtils.loadAnimation(aQuery.getContext(), R.anim.rotate_dialog));
 	}
@@ -560,9 +546,12 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 //				mDialog.show();
 //			}
 			mMediaPlayer.seekTo(pos);
-			isSeekTOTEST=true;
+//			isSeekTOTEST=true;
 			isSeeking = false;
 			startPlayProgressUpdater();
+			if(!mMediaPlayer.isPlaying())
+				mMediaPlayer.start();
+			rl_playcontrol_mainseekbar.setVisibility(View.GONE);
 		}
 	}
 	 /**
@@ -573,7 +562,8 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	private void initMediaPlayer(String[] paths){
 		mMediaPlayer = new MediaPlayer(CCVitamioPlayer.this);
 		mMediaPlayer.setDataSegments(paths, getCacheDir().toString());
-//		mMediaPlayer.setDataSource(path);
+//		mMediaPlayer.setDataSegments(paths, Environment.getExternalStorageDirectory() + "/CCdrive/");
+//		mMediaPlayer.setDataSource(paths[0]);
 //		mMediaPlayer.setDataSegments(myPath,getCacheDir().toString());
 		mMediaPlayer.setDisplay(holder);
 		try {
@@ -585,6 +575,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		mMediaPlayer.setOnBufferingUpdateListener(CCVitamioPlayer.this);
 		mMediaPlayer.setOnCompletionListener(CCVitamioPlayer.this);
 		mMediaPlayer.setOnPreparedListener(CCVitamioPlayer.this);
@@ -592,26 +583,71 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 		mMediaPlayer.setOnInfoListener(mInfoListener);
 		mMediaPlayer.getMetadata();
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-	
+		
+		String videoQuity = HttpRequest.getInstance().getVideoQuity();  //品质类型
+		 
+		 if(null!=videoQuity&&!"".equals(videoQuity)&&"0".equals(videoQuity)){
+			 final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mPreview.getLayoutParams();
+//		   lp.leftMargin = left;
+//		    lp.topMargin = right;
+			 lp.width = 1200;
+			 lp.height = 800;
+			 mPreview.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					
+					mPreview.setLayoutParams(lp);
+				}
+			 });
+		 }else{
+			 final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mPreview.getLayoutParams();
+//			   lp.leftMargin = left;
+//			    lp.topMargin = right;
+				 lp.width = lp.FILL_PARENT;
+				 lp.height = lp.FILL_PARENT;
+				 mPreview.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+							mPreview.setLayoutParams(lp);
+						}
+					 });
+		 }
+
 	}
+	
+	
 	private void playVideo() {
 		doCleanUp();
 		 if(""==HttpRequest.getInstance().getVideoPath()||null==HttpRequest.getInstance().getVideoPath()){
 		   new  AsyncTask<Void, Void, String[]>(){
-			   
 			@Override
 			protected void onPreExecute() {
-				re_player_loading.setVisibility(View.VISIBLE);
+//				re_player_loading.setVisibility(View.VISIBLE);
+				re_player_loading_buffer.setVisibility(View.VISIBLE);
+				txt_loading_whatshow.setText("正在解析影片地址..");
 				super.onPreExecute();
 			}
 			@Override
-			protected void onPostExecute(String[] result) {
+			protected void onPostExecute(final String[] result) {
 //				mDialog.dismiss();
 				
 				if(null!=result&&!"".equals(result)&&result.length!=0){
-					initMediaPlayer(result);
-					}else{
+					new Thread(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							initMediaPlayer(result);
+							super.run();
+						}
 						
+					}.start();
+					}else{
 						Uri uri = Uri.parse(HttpRequest.getInstance().getUrl());
 						Intent it = new Intent(Intent.ACTION_VIEW, uri);
 						startActivity(it);
@@ -622,6 +658,18 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			@Override
 			protected String[] doInBackground(Void... params) {
 				String url ="";
+                 System.out.println("要fffffffff的地址为=============="+HttpRequest.getInstance().getUrl());
+				if(!"".equals(HttpRequest.getInstance().getUrl())&&null!=HttpRequest.getInstance().getUrl()){
+					 url =HttpRequest.getInstance().getUrl();
+				}else{
+					String path =HttpRequest.getInstance().getURL_TVEpisode_Play();
+					System.out.println("要解析的地址为===========》"+path);
+					String responseString = HttpUtil.getResponseString(path);
+					System.out.println("要解析的地址为===========》"+responseString);
+					ArrayList<PlayPathBean> tvPlayPath = JSONUtil.getTvPlayPath(responseString);
+					 url= tvPlayPath.get(sourceCount).getHtmlPath();
+					 HttpRequest.getInstance().setUrl(url);
+				}
 //				if("22".equals(HttpRequest.getInstance().getType())){
 //				String path =HttpRequest.getInstance().getURL_TVEpisode_Play();
 //				System.out.println("要解析的地址为===========》"+path);
@@ -630,10 +678,20 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 //				 url= tvPlayPath.get(0).getHtmlPath();
 //				 HttpRequest.getInstance().setUrl(url);
 //				}else{
-			        url =HttpRequest.getInstance().getUrl();
+			       
 //				}
 				System.out.println("要解析的地址为===========》"+url);
-				String[] playPaths = getPlayPaths(url,"1");
+				String quity=HttpRequest.getInstance().getLetvQuity();
+				String[] playPaths=null;
+				if(null!=quity&&!"".equals(quity)){
+					playPaths = getPlayPaths(url,quity);
+				}else{
+					playPaths = getPlayPaths(url,"1300");
+				}
+				if(null==playPaths||playPaths.length==0)return null;
+				for (int i = 0; i < playPaths.length; i++) {
+					System.out.println("要播放的地址strign数组为"+i+"==========》》》"+playPaths[i]);
+				}
 				System.out.println("要解析的地址为===========》"+playPaths);
 				return playPaths;
 //				return new String[]{"http://220.196.51.20/31/37/" +
@@ -642,8 +700,18 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			}
 		   }.execute();
 		 }else{
-			 String[] myPaths= new String[]{HttpRequest.getInstance().getVideoPath()};
-			 initMediaPlayer(myPaths);
+			 final String[] myPaths= new String[]{HttpRequest.getInstance().getVideoPath()};
+				new Thread(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+					
+						initMediaPlayer(myPaths);
+						super.run();
+					}
+					
+				}.start();
 		 }
 //		String[] myPaths =new String[]{"http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030002070050DB98133F14041F3EEB184C5A4C-314A-B89C-6A1C-B2288D7226FB?K=9ff3a5b4ffb9be3024119494",
 //"http://f.youku.com/player/getFlvPath/sid/00_00/st/flv/fileid/030002070150DB98133F14041F3EEB184C5A4C-314A-B89C-6A1C-B2288D7226FB?K=b8510b28a5a784662829055b",
@@ -655,11 +723,13 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 //		};
 //		initMediaPlayer(myPaths);
 	}
-
+ 
+	
+	 
 	public void onBufferingUpdate(MediaPlayer arg0, int percent) {
-//		Log.d(TAG, "" +
-//				" percent:" + percent);
-		playMaskImageView.setVisibility(View.VISIBLE);
+		Log.d(TAG, "" +
+				" percent:" + percent);
+//		playMaskImageView.setVisibility(View.VISIBLE);
 		final int mCurrentBufferPercentage = percent;
 		tv_processbar.post(new Runnable() {
 			@Override
@@ -686,11 +756,15 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 		public boolean onInfo(MediaPlayer mp, int what, int extra) {
 			if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
 				Log.i(TAG, "onInfo MEDIA_INFO_BUFFERING_START");
-				re_player_loading.setVisibility(View.VISIBLE);
-				
+//				re_player_loading.setVisibility(View.VISIBLE);
+				if(re_player_loading_buffer.getVisibility()!=View.VISIBLE){
+				re_player_loading_buffer.setVisibility(View.VISIBLE);
+				}
+				txt_loading_whatshow.setText("正在缓冲相关视频..");
 			} else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
 				Log.i(TAG, "onInfo MEDIA_INFO_BUFFERING_END");
-				re_player_loading.setVisibility(View.GONE);
+//				re_player_loading.setVisibility(View.GONE);
+				re_player_loading_buffer.setVisibility(View.GONE);
 				tv_processbar.setText(0+"%");
 			}
 			return true;
@@ -725,6 +799,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	}
 
 	public void surfaceChanged(SurfaceHolder surfaceholder, int i, int j, int k) {
+		 
 		Log.d(TAG, "surfaceChanged called");
 
 	}
@@ -776,23 +851,6 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-//		if(keyCode==KeyEvent.KEYCODE_DPAD_CENTER){
-//			  if(!mDialog.isShowing()){
-//			 if(iv_playcontrol_pause.getVisibility()==View.VISIBLE){
-//				 iv_playcontrol_pause.setVisibility(View.GONE);
-//				 relative_playcotrol_playsetting.setVisibility(View.GONE);
-//				 mMediaPlayer.start();  
-//			 }else{
-//				 iv_playcontrol_pause.setVisibility(View.VISIBLE);
-//				 relative_playcotrol_playsetting.setVisibility(View.VISIBLE);
-//				 if(mMediaPlayer.isPlaying()){
-//				 mMediaPlayer.pause();
-//				 }
-//				 
-//			 }
-//			  }
-//		}
 		if(keyCode==KeyEvent.KEYCODE_DPAD_DOWN||keyCode==KeyEvent.KEYCODE_DPAD_UP){
 			if(relative_playcotrol_playsetting.getVisibility()!=View.VISIBLE){
 			if(relativeLayout_playcontroll_voicebar.getVisibility()!=View.VISIBLE){
@@ -808,6 +866,9 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			if(rl_playcontrol_mainseekbar.getVisibility()!=View.VISIBLE){
 				relativeLayout_playcontroll_voicebar.setVisibility(View.GONE);
 				rl_playcontrol_mainseekbar.setVisibility(View.VISIBLE);
+				videoSeekBar.requestFocus();
+				videoSeekBar.setFocusable(true);
+			}else{
 				videoSeekBar.requestFocus();
 				videoSeekBar.setFocusable(true);
 			}
@@ -884,13 +945,21 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 		
 		
 		private String[] getPlayPaths(String url,String type){
+//			System.out.println("测试的乐视的type为多少=========》》"+type);
+//			System.out.println("测试的乐视的url为多少=========》》"+url);
 			Letv letvParse=new Letv();
 			String[] paths = null ;
 			 ArrayList<String> videoUrls = letvParse.getVideoUrl(url, type);
+			 if(null==videoUrls||videoUrls.size()==0)
+				 return null;
+			 String videoType =videoUrls.get(0);
+			  HttpRequest.getInstance().setVideoQuity(videoType);
+			 videoUrls.remove(0);
 			if(null!=videoUrls&&videoUrls.size()!=0){
 				paths= new String[videoUrls.size()];
 			  for (int i = 0; i < videoUrls.size(); i++) {
 				  paths[i] =videoUrls.get(i);
+//				  System.out.println("paths[i]================>"+paths[i]);
 			}
 			}
 			return paths;
@@ -925,7 +994,7 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				
 //				if (mDialog != null)
 //					mDialog.hide();
-				if(re_player_loading.getVisibility()==View.VISIBLE)re_player_loading.setVisibility(View.GONE);
+				if(re_player_loading_buffer.getVisibility()==View.VISIBLE)re_player_loading_buffer.setVisibility(View.GONE);
 				mCurrentState = STATE_ERROR;
 				if (mPreview.getWindowToken() != null) {
 					int message = framework_err == MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK ? R.string.VideoView_error_text_invalid_progressive_playback
@@ -951,9 +1020,9 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 				return true;
 			}
 		};
-		int countdown =5;
+		int countdown =5; 
 		private void doAutoExit(int s) {
-			System.out.println("s:"+s);
+//			System.out.println("s:"+s);
 			if (s <= 1) {
 				if (errordialog != null && errordialog.isShowing()
 						&& errordialog.getWindow() != null) {
@@ -965,4 +1034,10 @@ public class CCVitamioPlayer extends Activity implements OnBufferingUpdateListen
 			_handler.sendMessageDelayed(_handler.obtainMessage(MSG_WHAT_AUTO_EXIT, --s), 1000);
 		}
 	  
+		
+		  @Override
+		public boolean onTouchEvent(MotionEvent event) {
+			// TODO Auto-generated method stub
+			return super.onTouchEvent(event);
+		}
 }

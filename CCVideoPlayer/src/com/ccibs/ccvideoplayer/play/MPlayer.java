@@ -82,7 +82,7 @@ public class MPlayer{
 	private SurfaceView mSurfaceView;
 	private SurfaceHolder mSurfaceHolder;
 	private MediaPlayer mMediaPlayer;
-	private MATController mMediaController;
+//	private MATController mMediaController;
 	public MATDialog mDialog;
 	
 	private int mVideoWidth = 0;
@@ -169,18 +169,15 @@ public class MPlayer{
 				mDialog.setProgress(_progress);
 				return;
 			case MSG_WHAT_HIDE_CONTROLLER:
-				mMediaController.hide();
 				break;
 			case MSG_WHAT_SHOW_NETWORK_SPEED:
-				HttpProxy.getInstance().showNetworkInfo();
-				HttpProxy.getInstance().startNetworkInfo();
+
 				return;
 			case MSG_WHAT_SHOW_BUFFER_INFO:
-				HttpProxy.getInstance().showBufferInfo();
+
 				return;
 			case MSG_WHAT_UPDATE_CONTROLLER_INFO:
-				updateControllerInfo();
-				mMediaController.updateInfo();
+
 				break;
 			case MSG_WHAT_AUTO_EXIT:
 				int s = (Integer) msg.obj;
@@ -201,10 +198,10 @@ public class MPlayer{
 		res = context.getResources();
 	}
 
-	public void initController() {
-		mMediaController = new MATController(mContext,mRootView);
-		mMediaController.setHandler(_handler);
-	}
+//	public void initController() {
+//		mMediaController = new MATController(mContext,mRootView);
+//		mMediaController.setHandler(_handler);
+//	}
 
 	public static MPlayer getInstance(){
 		if(mInstance==null){
@@ -215,8 +212,8 @@ public class MPlayer{
 	
 	public void setOwnerActivity(Activity context){
 		mContext = context;
-		mRootView = LayoutInflater.from(mContext).inflate(R.layout.player, null);
-		mSurfaceView = (SurfaceView) mRootView.findViewById(R.id.surfaceView);
+		mRootView = LayoutInflater.from(mContext).inflate(R.layout.play_activity_layout, null);
+		mSurfaceView = (SurfaceView) mRootView.findViewById(R.id.playSurfaceView);
 		initResources(mContext);
 	}
 
@@ -242,21 +239,21 @@ public class MPlayer{
 	}
 	
 	
-	*//**
-	 * 1、更新进度条 2、更新时�?3、更新下载�?�?
-	 *//*
-	protected void updateControllerInfo() {
-		// TODO Auto-generated method stub
-		if (isInPlaybackState()) {
-			mPosition = getCurrentPosition();
-			if(mDuration==0)mDuration = getDuration();
-			if (mDuration > 0) {
-				mMediaController.syncTimeBar(mPosition,mDuration);
-				// controller.seekBar.setSecondaryProgress(???+100*position/duration);//???=100*blocksize*_progress/totalsize;
-			}
-			return;
-		}
-	}
+//	*//**
+//	 * 1、更新进度条 2、更新时�?3、更新下载�?�?
+//	 *//*
+//	protected void updateControllerInfo() {
+//		// TODO Auto-generated method stub
+//		if (isInPlaybackState()) {
+//			mPosition = getCurrentPosition();
+//			if(mDuration==0)mDuration = getDuration();
+//			if (mDuration > 0) {
+//				mMediaController.syncTimeBar(mPosition,mDuration);
+//				// controller.seekBar.setSecondaryProgress(???+100*position/duration);//???=100*blocksize*_progress/totalsize;
+//			}
+//			return;
+//		}
+//	}
 	
 	public void init() {
 		initDialog();
@@ -464,7 +461,7 @@ public class MPlayer{
 	private MATDialog initDialog() {
 		mDialog = new MATDialog(mContext, R.style.dialog);
 		mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
-		mDialog.showMessage(res.getString(R.string.onprepare) + mTitle);
+//		mDialog.showMessage(res.getString(R.string.onprepare) + mTitle);
 		return mDialog;
 	}
 	

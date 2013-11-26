@@ -281,7 +281,7 @@ public class JSONUtil {
 				 String path = playBeanOb.getString("PATH");
 				 String url = playBeanOb.getString("URL");
 				 epb.setUrl(url);
-					if(path.contains("http")){
+					if(!path.contains("/mnt/")){
 						epb.setFilePath(path);
 					}else{
 						path = HttpRequest.getInstance().getURL_QUERY_SINGLE_IMAGE()+path;

@@ -8,7 +8,7 @@ public class HttpRequest {
 	// private String WEB_ROOT = "http://119.255.47.242:8080/";
 //	private String WEB_ROOT = "http://apk.vocy.com/";
 	
-	private String STATIC_WEB_ROOT="http://html.vocy.com/";
+	private String STATIC_WEB_ROOT="http://html.pctoo.cn/";
 	
 	 public String getSTATIC_WEB_ROOT() {
 		return STATIC_WEB_ROOT;
@@ -46,8 +46,26 @@ public class HttpRequest {
 	private String type; //频道类型
 	private String commicKind;  //漫画类型
 	private String Sid;
+	private String letvQuity; //乐视tv的品质
+	private String VideoQuity; //视频的品质
 	
 	
+	public String getVideoQuity() {
+		return VideoQuity;
+	}
+
+	public void setVideoQuity(String videoQuity) {
+		VideoQuity = videoQuity;
+	}
+
+	public String getLetvQuity() {
+		return letvQuity;
+	}
+
+	public void setLetvQuity(String letvQuity) {
+		this.letvQuity = letvQuity;
+	}
+
 	public String getSid() {
 		return Sid;
 	}
@@ -131,7 +149,7 @@ public class HttpRequest {
 //	}
 	// 获取下载的uuid
 	public String getURL_UPDATE_APK() {
-		return "http://api.vocy.com/android!getFunction.action?arg0=droidpc_app_getversion&arg1=";
+		return "http://sys.pctoo.cn/android!getFunction.action?arg0=droidpc_app_getversion&arg1=";
 	}
 
 	public String getApkuuid() {
@@ -185,11 +203,11 @@ public class HttpRequest {
 
 	// 更新下载地址
 	public String getURL_DOWN_UPDATE_APK() {
-		return "http://api.vocy.com/apk_file/" + apkuuid + ".apk";
+		return "http://sys.pctoo.cn/apk_file/" + apkuuid + ".apk";
 	}
 	
 	//public  static final String webServiceURL="http://192.168.1.3:2015/services/";
-		public  static final String webServiceURL="http://service.vocy.com/services/";
+		public  static final String webServiceURL="http://service.pctoo.cn/services/";
 		//public  static final String webServiceURL="http://192.168.1.199:8080/services/";
 		
 		//获得级数
